@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Dependencies\glad\src\glad.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\PolygonShape.cpp" />
+    <ClCompile Include="src\Collisions.cpp" />
+    <ClCompile Include="src\ErrorHandler.cpp" />
+    <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\RectangleShape.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Shape.cpp" />
+    <ClCompile Include="src\SpriteBatch.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\VertexArray.cpp" />
+    <ClCompile Include="src\VertexBuffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\PolygonShape.h" />
+    <ClInclude Include="src\Collisions.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\RectangleShape.h" />
+    <ClInclude Include="src\ErrorHandler.h" />
+    <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\Shape.h" />
+    <ClInclude Include="src\SpriteBatch.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Variables.h" />
+    <ClInclude Include="src\VertexArray.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{c1d1f8ed-73c1-4814-855b-0689732b9e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{2b7b5acc-78c1-47d4-b1d9-6bcd330ff783}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FantasyConsole\Resources\Shape.shader" />
+    <None Include="Resources\Shape.shader" />
+  </ItemGroup>
+</Project>
