@@ -23,23 +23,32 @@ int main()
 	rm::LoadTexture("Resources/Assets/background.png", "background");
 	rm::LoadTexture("Resources/wall.jpg", "wall");
 	rm::LoadTexture("Resources/Assets/Spaceships/01/Spaceship_01_GREEN.png", "player");
+	rm::LoadTexture("Resources/01-generic.png", "sheet");
 
 	RectangleShape background(s_width, s_height, 0, 0);
 	background.SetTexture("background");
-	Sprite sprite("wall", glm::vec2(50, 0), glm::vec2(50, 50));
-	Sprite sprite2("player", glm::vec2(100, 50), glm::vec2(50, 50));
+	Sprite s("sheet", 4, glm::vec2(16.0, 16.0));
+	s.Size = glm::vec2(100, 100);
+	s.Position = glm::vec2(100, 0);
+	Sprite a("wall");
+	a.Size = glm::vec2(50, 50);
 
 	SpriteBatch sp;
 
 	while (Window::IsOpen())
 	{
+
+		if (Input::GetKeyState(GLFW_KEY_D)) {
+			s.CellIndex++;
+		}
+
 		Renderer::Clear();
 
-		Renderer::Draw(background);
 
 		sp.Start();
-		sp.Draw(sprite);
-		sp.Draw(sprite2);
+		sp.Draw(a);
+		sp.Draw(s);
+		sp.Draw(s);
 		sp.End();
 
 		Window::Display();

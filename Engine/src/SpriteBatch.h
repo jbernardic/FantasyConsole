@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
+#include <unordered_map>
 
 #define MaxSpriteCount 1000
 
@@ -18,4 +19,5 @@ private:
 	std::unique_ptr<IndexBuffer> m_IB;
 	VertexArray m_VA;
 	VertexBuffer m_VB = VertexBuffer(MaxSpriteCount*sizeof(Vertex));
+	std::unordered_map<void*, unsigned int> m_Textures;
 };

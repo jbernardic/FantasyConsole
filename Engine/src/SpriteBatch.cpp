@@ -2,7 +2,6 @@
 #include "SpriteBatch.h"
 
 unsigned int SpriteBatch::Instance = 0;
-unsigned int Sprite::Instance = 0;
 
 SpriteBatch::SpriteBatch() {
 	unsigned int* indices = new unsigned int[MaxSpriteCount * 6];
@@ -37,14 +36,22 @@ SpriteBatch::SpriteBatch() {
 	Instance++;
 }
 
-void SpriteBatch::Draw(Sprite& sprite)
+void SpriteBatch::Draw(Sprite& sprite) 
 {
-	unsigned int texIndex = static_cast<unsigned int>(m_BufferSize / (4 * sizeof(Vertex)));
+	unsigned int texIndex;
+	if (m_Textures.find(sprite.Texture) != m_Textures.end()) {
+		texIndex = m_Textures[sprite.Texture];
+	}
+	else {
+		texIndex = m_Textures.size();
+	}
+
 	auto dataArray = sprite.GetVertices(static_cast<float>(texIndex));
 	m_VB.Bind();
 	m_VB.SubData(dataArray.data(), dataArray.size() * sizeof(Vertex), static_cast<unsigned int>(m_BufferSize));
-	sprite.GetTexture().Bind(texIndex);
+	sprite.Texture->Bind(texIndex);
 	m_BufferSize += dataArray.size() * sizeof(Vertex);
+	m_Textures[sprite.Texture] = texIndex;
 }
 
 void SpriteBatch::End() {
@@ -52,8 +59,10 @@ void SpriteBatch::End() {
 	m_VA.Bind();
 	lcall(glDrawElements(GL_TRIANGLES, m_BufferSize/(4*sizeof(Vertex))*6, GL_UNSIGNED_INT, nullptr));
 	m_BufferSize = 0;
+	m_Textures.clear();
 }
 
 void SpriteBatch::Start() {
 	m_BufferSize = 0;
+	m_Textures.clear();
 }
