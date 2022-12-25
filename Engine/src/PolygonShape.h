@@ -8,16 +8,12 @@ struct DrawablePolygonShape {
 class PolygonShape : public Shape{
 public:
 	PolygonShape(float radius = 100.0f, unsigned int numberOfPoints = 100, float x = 0.0f, float y = 0.0f);
-	 const VertexArray& GetVertexArray() const{ return va; };
-	 unsigned int GetID() const{return va.GetRendID();}
-	 float* GetVertices() const{return vertices;}
-	 unsigned int GetPointNumber() const{return pointNumber;}
-	 size_t GetVertCount() const{ return vertCount; }
+	 const VertexArray& GetVertexArray() const{ return m_VA; };
+	 unsigned int GetID() const{return m_VA.GetRendID();}
+	 unsigned int GetPointNumber() const{return m_PointNumber;}
 private:
-	unsigned int pointNumber;
-	float radius;
-	float* vertices = nullptr;
-	size_t vertCount = 0;
-	VertexArray va;
-	std::shared_ptr<VertexBuffer> vb;
+	unsigned int m_PointNumber;
+	float m_Radius;
+	VertexArray m_VA;
+	std::shared_ptr<VertexBuffer> m_VB;
 };

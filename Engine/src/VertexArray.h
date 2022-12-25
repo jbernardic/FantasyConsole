@@ -9,10 +9,10 @@ public:
 	void Bind() const;
 	void UnBind() const;
 	 unsigned int GetRendID() const{
-		return _rendID;
+		return m_ID;
 	}
 private:
-	unsigned int _rendID;
-	unsigned int offset = 0;
-	VertexBuffer* object = nullptr;
+	unsigned int m_ID;
+	unsigned int m_Offset = 0;
+	VertexBuffer* m_VB = nullptr;
 };

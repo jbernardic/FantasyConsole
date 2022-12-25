@@ -5,17 +5,17 @@
 
 VertexArray::VertexArray()
 {
-	(glGenVertexArrays(1, &_rendID));
+	(glGenVertexArrays(1, &m_ID));
 }
 
 VertexArray::~VertexArray() {
 
 	std::cout << "VA DTOR" << std::endl;
-	lcall(glDeleteVertexArrays(1, &_rendID));
+	lcall(glDeleteVertexArrays(1, &m_ID));
 }
 
 void VertexArray::Bind() const {
-	lcall(glBindVertexArray(_rendID));
+	lcall(glBindVertexArray(m_ID));
 }
 
 void VertexArray::UnBind() const {
@@ -25,14 +25,14 @@ void VertexArray::UnBind() const {
 void VertexArray::AddBuffer(VertexBuffer& vb, unsigned int layout, unsigned int count, unsigned int type, unsigned int stride, unsigned int pointer) {
 	Bind();
 	vb.Bind();
-	if (object != &vb) offset = 0;
-	if (pointer != 0) { offset = pointer; }
+	if (m_VB != &vb) m_Offset = 0;
+	if (pointer != 0) { m_Offset = pointer; }
 	if (type == GL_FLOAT) {
-		glVertexAttribPointer(layout, count, GL_FLOAT, GL_FALSE, sizeof(float) * stride, (void*)(offset*sizeof(float)));
+		glVertexAttribPointer(layout, count, GL_FLOAT, GL_FALSE, sizeof(float) * stride, (void*)(m_Offset *sizeof(float)));
 		glEnableVertexAttribArray(layout);
-		object = &vb;
+		m_VB = &vb;
 		
 	}
-	if (pointer == 0) { offset += count; }
+	if (pointer == 0) { m_Offset += count; }
 
 }

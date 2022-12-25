@@ -11,6 +11,6 @@ public:
 	void UnBind() const;
 
 private:
-	unsigned int _rendID = 0;
+	unsigned int m_ID = 0;
 };
 

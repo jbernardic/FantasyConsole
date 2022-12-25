@@ -9,10 +9,10 @@
 using namespace std;
 
 Shader::Shader(const std::string& path)
-	:path(path)
+	:m_Path(path)
 {
 	ShaderSrc src = GetShaderSource(path);
-	_id = CreateShader(src.vertex, src.fragment);
+	m_ID = CreateShader(src.vertex, src.fragment);
 	glm::mat4 projection = glm::ortho(0.0f, (float)s_width, (float)s_height, 0.0f, -1.0f, 1.0f);
 	SetMatrix4("projection", projection);
 }
@@ -51,7 +51,7 @@ ShaderSrc Shader::GetShaderSource(const string& path) {
 
 void Shader::Bind() const
 {
- 	lcall(glUseProgram(_id));
+ 	lcall(glUseProgram(m_ID));
 }
 
 void Shader::UnBind() const
@@ -103,36 +103,36 @@ unsigned int Shader::CreateShader(const string& vertexShader, const string& frag
 
 void Shader::SetMatrix4(const char* name, const glm::mat4 value) const{
 	Bind();
-	auto location = glGetUniformLocation(_id, name);
+	auto location = glGetUniformLocation(m_ID, name);
 	lcall(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value)));
 }
 
 void Shader::SetIntArray(const char* name, int* arr, int length)
 {
 	Bind();
-	auto location = glGetUniformLocation(_id, name);
+	auto location = glGetUniformLocation(m_ID, name);
 	lcall(glUniform1iv(location, length, arr));
 }
 
 void Shader::SetFloat4(const char* name, float a, float b, float c, float d) const{
 	Bind();
-	auto location = glGetUniformLocation(_id, name);
+	auto location = glGetUniformLocation(m_ID, name);
 	lcall(glUniform4f(location, a, b, c, d));
 }
 void Shader::SetFloat2(const char* name, float a, float b) const{
 	Bind();
-	auto location = glGetUniformLocation(_id, name);
+	auto location = glGetUniformLocation(m_ID, name);
 	lcall(glUniform2f(location, a, b));
 }
 void Shader::SetFloat(const char* name, float a) const{
 	Bind();
-	auto location = glGetUniformLocation(_id, name);
+	auto location = glGetUniformLocation(m_ID, name);
 	lcall(glUniform1f(location, a));
 }
 
 void Shader::SetInt(const char* name, int a) const {
 	Bind();
-	auto location = glGetUniformLocation(_id, name);
+	auto location = glGetUniformLocation(m_ID, name);
 	lcall(glUniform1i(location, a));
 }
 

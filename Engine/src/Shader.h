@@ -15,8 +15,8 @@ struct ShaderSrc
 class Shader {
 
 private:
-	unsigned int _id = 0;
-	std::string path;
+	unsigned int m_ID = 0;
+	std::string m_Path;
 public:
 	Shader(const std::string& path);
 	Shader() {};
@@ -24,9 +24,9 @@ public:
 
 	ShaderSrc GetShaderSource(const std::string& path);
 	std::string GetPath() const {
-		return path;
+		return m_Path;
 	}
-	unsigned int GetID() const { return _id; }
+	unsigned int GetID() const { return m_ID; }
 
 	void SetFloat4(const char* name, float a, float b, float c, float d) const;
 	void SetFloat2(const char* name, float a, float b) const;

@@ -16,7 +16,7 @@ public:
 	Sprite(const char* texturePath, glm::vec2 position = glm::vec2(0.0), glm::vec2 size = glm::vec2(1.0), glm::vec4 color = glm::vec4(1.0));
 	std::array<Vertex, 4> GetVertices();
 	Texture& GetTexture();
-	static unsigned int instance;
+	static unsigned int Instance;
 	void SetTexIndex(unsigned int index) {
 		m_TexIndex = static_cast<float>(index);
 	}
@@ -40,11 +40,11 @@ public:
 	void Draw(Sprite& sprite);
 	void End();
 	void Start();
-	static unsigned int instance;
+	static unsigned int Instance;
 private:
-	size_t verticies_size = 0;
-	Shader* shader;
-	std::unique_ptr<IndexBuffer> ib;
-	VertexArray va;
-	VertexBuffer vb = VertexBuffer(MaxSpriteCount*sizeof(Vertex));
+	size_t m_BufferSize = 0;
+	Shader* m_Shader;
+	std::unique_ptr<IndexBuffer> m_IB;
+	VertexArray m_VA;
+	VertexBuffer m_VB = VertexBuffer(MaxSpriteCount*sizeof(Vertex));
 };

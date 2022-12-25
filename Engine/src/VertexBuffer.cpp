@@ -3,22 +3,22 @@
 #include "Renderer.h"
 
 VertexBuffer::VertexBuffer(const void* data, unsigned int size) {
-	lcall(glGenBuffers(1, &_rendID));
-	lcall(glBindBuffer(GL_ARRAY_BUFFER, _rendID));
+	lcall(glGenBuffers(1, &m_ID));
+	lcall(glBindBuffer(GL_ARRAY_BUFFER, m_ID));
 	lcall(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
 }
 VertexBuffer::VertexBuffer(unsigned int size) {
-	lcall(glGenBuffers(1, &_rendID));
-	lcall(glBindBuffer(GL_ARRAY_BUFFER, _rendID));
+	lcall(glGenBuffers(1, &m_ID));
+	lcall(glBindBuffer(GL_ARRAY_BUFFER, m_ID));
 	lcall(glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW));
 }
 VertexBuffer::~VertexBuffer() {
 	std::cout << "VertexBuffer dtor"<<std::endl;
-	lcall(glDeleteBuffers(1, &_rendID));
+	lcall(glDeleteBuffers(1, &m_ID));
 }
 
 const void VertexBuffer::Bind() const {
-	lcall(glBindBuffer(GL_ARRAY_BUFFER, _rendID));
+	lcall(glBindBuffer(GL_ARRAY_BUFFER, m_ID));
 }
 
 const void VertexBuffer::UnBind() const {

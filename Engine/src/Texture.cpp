@@ -5,12 +5,12 @@
 #include "ErrorHandler.h"
 using namespace std;
 Texture::Texture(const char* path)
-	:_path(path)
+	:m_Path(path)
 
 {
-	glGenTextures(1, &_texture);
+	glGenTextures(1, &m_Texture);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _texture);
+	glBindTexture(GL_TEXTURE_2D, m_Texture);
 
 	// texture wrapping/filtering options
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -19,17 +19,17 @@ Texture::Texture(const char* path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	//stbi_set_flip_vertically_on_load(true);
 
-	unsigned char* data = stbi_load(path, &_width, &_height, &_nrChannels, 0);
+	unsigned char* data = stbi_load(path, &m_Width, &m_Height, &m_NrChannels, 0);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	if (data) {
-		if (_nrChannels == 4) {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		if (m_NrChannels == 4) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
 		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -39,12 +39,12 @@ Texture::Texture(const char* path)
 	stbi_image_free(data);
 }
 const void Texture::Bind() const {
-	glBindTexture(GL_TEXTURE_2D, _texture);
+	glBindTexture(GL_TEXTURE_2D, m_Texture);
 }
 
 const void Texture::Bind(unsigned int unit) const
 {
-	glBindTextureUnit(unit, _texture);
+	glBindTextureUnit(unit, m_Texture);
 }
 
 const void Texture::UnBind() const{

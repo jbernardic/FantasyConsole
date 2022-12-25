@@ -14,12 +14,12 @@ public:
 	const void Bind() const;
 	const void Bind(unsigned int unit) const;
 	const void UnBind() const;
-	int GetWidth() const { return _width; }
-	int GetHeight() const { return _height; }
+	int GetWidth() const { return m_Width; }
+	int GetHeight() const { return m_Height; }
 private:
-	int _width = 0;
-	int _height = 0;
-	int _nrChannels = 0;
-	unsigned int _texture = 0;
-	std::string _path;
+	int m_Width = 0;
+	int m_Height = 0;
+	int m_NrChannels = 0;
+	unsigned int m_Texture = 0;
+	std::string m_Path;
 };

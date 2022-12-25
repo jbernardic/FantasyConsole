@@ -32,32 +32,28 @@ public:
 	void ScaleCollisionBounds(glm::vec2 times);
 	void SetCollisisionBoundsType(BoundsType type);
 	void FillColor(float a, float b, float c, float d);
-	bool IsPolygon() const { return isPolygon; }
-	void SetPolygon(bool a) { isPolygon = a; }
-	glm::vec2 GetPosition() const { return position; };
-	glm::vec2 GetSize() const { return size; }
-	unsigned int* GetIndices() const { return indices; }
-	float* GetVertices() const { return vertices; }
-	const Shader& GetShader() const { return *shader; }
-	const Texture& GetTexture() const { return *texture; };
-	const VertexArray& GetVertexArray() const { return va; }
-	Bounds GetCollisionBounds() const { return collisionBounds; }
-	unsigned int GetID() const { return va.GetRendID(); }
-	bool HasTexture() const { return hastexture; }
-	unsigned int GetElementCount() const { return elementCount; }
+	bool IsPolygon() const { return m_IsPolygon; }
+	void SetPolygon(bool a) { m_IsPolygon = a; }
+	glm::vec2 GetPosition() const { return m_Position; };
+	glm::vec2 GetSize() const { return m_Size; }
+	const Shader& GetShader() const { return *m_Shader; }
+	const Texture& GetTexture() const { return *m_Texture; };
+	const VertexArray& GetVertexArray() const { return m_VA; }
+	Bounds GetCollisionBounds() const { return m_CollisionBounds; }
+	unsigned int GetID() const { return m_VA.GetRendID(); }
+	bool HasTexture() const { return m_HasTexture; }
+	unsigned int GetElementCount() const { return m_ElementCount; }
 	static unsigned int instance;
 private:
-	float* vertices;
-	unsigned int* indices;
-	const VertexArray& va;
-	glm::vec2 position = glm::vec2(0.0f);
-	glm::vec2 size = glm::vec2(1.0);
-	glm::mat4 model = glm::mat4(1.0f);
-	Shader* shader = nullptr;
-	Texture* texture = nullptr;
-	float rotation = 0;
-	bool hastexture = false;
-	bool isPolygon = false;
-	Bounds collisionBounds = { glm::vec2(1.0), position, BoundsType::RECTANGLE };
-	unsigned int elementCount;
+	const VertexArray& m_VA;
+	glm::vec2 m_Position = glm::vec2(0.0f);
+	glm::vec2 m_Size = glm::vec2(1.0);
+	glm::mat4 m_Model = glm::mat4(1.0f);
+	Shader* m_Shader = nullptr;
+	Texture* m_Texture = nullptr;
+	float m_Rotation = 0;
+	bool m_HasTexture = false;
+	bool m_IsPolygon = false;
+	Bounds m_CollisionBounds = { glm::vec2(1.0), m_Position, BoundsType::RECTANGLE };
+	unsigned int m_ElementCount;
 };

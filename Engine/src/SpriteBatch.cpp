@@ -2,8 +2,8 @@
 #include "ResourceManager.h"
 #include <array>
 
-unsigned int SpriteBatch::instance = 0;
-unsigned int Sprite::instance = 0;
+unsigned int SpriteBatch::Instance = 0;
+unsigned int Sprite::Instance = 0;
 
 SpriteBatch::SpriteBatch() {
 	unsigned int* indices = new unsigned int[MaxSpriteCount * 6];
@@ -18,52 +18,52 @@ SpriteBatch::SpriteBatch() {
 		offset += 4;
 	}
 
-	ib = std::make_unique<IndexBuffer>(indices, MaxSpriteCount * 6);
+	m_IB = std::make_unique<IndexBuffer>(indices, MaxSpriteCount * 6);
 	delete[] indices;
 
-	va.AddBuffer(vb, 0, 2, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, Position) / sizeof(float));
-	va.AddBuffer(vb, 1, 4, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, Color) / sizeof(float));
-	va.AddBuffer(vb, 2, 2, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, TexCoord) / sizeof(float));
-	va.AddBuffer(vb, 3, 1, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, TexIndex) / sizeof(float));
-	ib->Bind();
+	m_VA.AddBuffer(m_VB, 0, 2, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, Position) / sizeof(float));
+	m_VA.AddBuffer(m_VB, 1, 4, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, Color) / sizeof(float));
+	m_VA.AddBuffer(m_VB, 2, 2, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, TexCoord) / sizeof(float));
+	m_VA.AddBuffer(m_VB, 3, 1, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, TexIndex) / sizeof(float));
+	m_IB->Bind();
 
-	rm::LoadShader("Resources/Sprite.shader", "sprite" + std::to_string(instance));
-	shader = &rm::GetShader("sprite" + std::to_string(instance));
+	rm::LoadShader("Resources/Sprite.Shader", "sprite" + std::to_string(Instance));
+	m_Shader = &rm::GetShader("sprite" + std::to_string(Instance));
 
 	glm::mat4 model = glm::mat4(1.0f);
-	shader->SetMatrix4("model", model);
+	m_Shader->SetMatrix4("model", model);
 	int samplers[32] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
-	shader->SetIntArray("textures", samplers, 32);
+	m_Shader->SetIntArray("textures", samplers, 32);
 
-	instance++;
+	Instance++;
 }
 
 void SpriteBatch::Draw(Sprite& sprite)
 {
-	unsigned int texIndex = static_cast<unsigned int>(verticies_size / (4 * sizeof(Vertex)));
+	unsigned int texIndex = static_cast<unsigned int>(m_BufferSize / (4 * sizeof(Vertex)));
 	sprite.SetTexIndex(texIndex);
 	auto dataArray = sprite.GetVertices();
-	vb.Bind();
-	vb.SubData(dataArray.data(), dataArray.size() * sizeof(Vertex), static_cast<unsigned int>(verticies_size));
+	m_VB.Bind();
+	m_VB.SubData(dataArray.data(), dataArray.size() * sizeof(Vertex), static_cast<unsigned int>(m_BufferSize));
 	sprite.GetTexture().Bind(texIndex);
-	verticies_size += dataArray.size() * sizeof(Vertex);
+	m_BufferSize += dataArray.size() * sizeof(Vertex);
 }
 
 void SpriteBatch::End() {
-	shader->Bind();
-	va.Bind();
-	lcall(glDrawElements(GL_TRIANGLES, verticies_size/(4*sizeof(Vertex))*6, GL_UNSIGNED_INT, nullptr));
-	verticies_size = 0;
+	m_Shader->Bind();
+	m_VA.Bind();
+	lcall(glDrawElements(GL_TRIANGLES, m_BufferSize/(4*sizeof(Vertex))*6, GL_UNSIGNED_INT, nullptr));
+	m_BufferSize = 0;
 }
 
 void SpriteBatch::Start() {
-	verticies_size = 0;
+	m_BufferSize = 0;
 }
 
 Sprite::Sprite(const char* path, glm::vec2 position, glm::vec2 size, glm::vec4 color) : m_Position(position), m_Size(size), m_Color(color) {
-	rm::LoadTexture(path, "Sprite" + instance);
-	m_Texture = &rm::GetTexture("Sprite" + instance);
-	instance++;
+	rm::LoadTexture(path, "Sprite" + Instance);
+	m_Texture = &rm::GetTexture("Sprite" + Instance);
+	Instance++;
 }
 
 std::array<Vertex, 4> Sprite::GetVertices() {

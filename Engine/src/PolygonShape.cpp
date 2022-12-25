@@ -1,7 +1,7 @@
 #include "PolygonShape.h"
 
 PolygonShape::PolygonShape(float r, unsigned int pNum, float x, float y)
-	:pointNumber(pNum), radius(r), Shape(nullptr, nullptr, r, r, glm::vec2(x,y), va, pNum*4+8)
+	:m_PointNumber(pNum), m_Radius(r), Shape(nullptr, nullptr, r, r, glm::vec2(x,y), m_VA, pNum*4+8)
 {
 	std::vector<float> vert;
 	std::vector<float> coords;
@@ -33,12 +33,9 @@ PolygonShape::PolygonShape(float r, unsigned int pNum, float x, float y)
 		n += 2;
 	}
 
-	vertCount = vert.size();
-	vertices = vert.data();
-
-	vb = std::make_shared<VertexBuffer>(vertices, vertCount * sizeof(float));
-	va.AddBuffer(*vb, 0, 2, GL_FLOAT, 4);
-	va.AddBuffer(*vb, 1, 2, GL_FLOAT, 4);
+	m_VB = std::make_shared<VertexBuffer>(vert.data(), vert.size() * sizeof(float));
+	m_VA.AddBuffer(*m_VB, 0, 2, GL_FLOAT, 4);
+	m_VA.AddBuffer(*m_VB, 1, 2, GL_FLOAT, 4);
 
 	SetCollisisionBoundsType(BoundsType::CIRCLE);
 	SetPolygon(true);

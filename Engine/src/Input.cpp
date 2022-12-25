@@ -1,18 +1,18 @@
 #include "Input.h"
 #include "ErrorHandler.h"
 
-std::map<int, bool> Input::keys;
+std::map<int, bool> Input::Keys;
 
 bool Input::GetKeyState(int key) {
-	return keys[key];
+	return Keys[key];
 }
 
 void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
-		Input::keys[key] = true;
+		Input::Keys[key] = true;
 	}
 	if (action == GLFW_RELEASE) {
-		keys[key] = false;
+		Keys[key] = false;
 	}
 }
 

@@ -6,18 +6,18 @@
 
 IndexBuffer::IndexBuffer(unsigned int* indices, unsigned int count)
 {
-	(glGenBuffers(1, &_rendID));
-	lcall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _rendID));
+	(glGenBuffers(1, &m_ID));
+	lcall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID));
 	lcall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 }
 
 IndexBuffer::~IndexBuffer() {
 	std::cout << "IndexBuffer DTOR" <<std::endl;
-	if(_rendID > 0) lcall(glDeleteBuffers(1, &_rendID));
+	lcall(glDeleteBuffers(1, &m_ID));
 }
 
 void IndexBuffer::Bind() const {
-	lcall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _rendID));
+	lcall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID));
 }
 
 void IndexBuffer::UnBind() const {

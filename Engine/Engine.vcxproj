@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\GLM;$(SolutionDir)\Dependencies\GLEW\include;$(SolutionDir)\Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)\Dependencies\GLM;$(SolutionDir)\Dependencies\GLEW\include;$(SolutionDir)\Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glm;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glfw-3.3.8.bin.WIN64\include;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include;$(SolutionDir)Dependencies\glad\include;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glm;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glfw-3.3.8.bin.WIN64\include;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\GLM;$(SolutionDir)\Dependencies\GLEW\include;$(SolutionDir)\Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)\Dependencies\GLM;$(SolutionDir)\Dependencies\GLEW\include;$(SolutionDir)\Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glm;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glfw-3.3.8.bin.WIN64\include;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\glfw-3.3.8.bin.WIN64\include;$(SolutionDir)Dependencies\glad\include;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glm;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glfw-3.3.8.bin.WIN64\include;C:\Users\Jan\source\repos\2D-CPP-RENDERER\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
