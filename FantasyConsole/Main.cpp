@@ -21,11 +21,13 @@ int main()
 	Window::Create();
 
 	rm::LoadTexture("Resources/Assets/background.png", "background");
+	rm::LoadTexture("Resources/wall.jpg", "wall");
+	rm::LoadTexture("Resources/Assets/Spaceships/01/Spaceship_01_GREEN.png", "player");
 
 	RectangleShape background(s_width, s_height, 0, 0);
 	background.SetTexture("background");
-	Sprite sprite("Resources/wall.jpg", glm::vec2(50, 0), glm::vec2(50, 50));
-	Sprite sprite2("Resources/Assets/Spaceships/01/Spaceship_01_GREEN.png", glm::vec2(100, 0), glm::vec2(50, 50));
+	Sprite sprite("wall", glm::vec2(50, 0), glm::vec2(50, 50));
+	Sprite sprite2("player", glm::vec2(100, 50), glm::vec2(50, 50));
 
 	SpriteBatch sp;
 

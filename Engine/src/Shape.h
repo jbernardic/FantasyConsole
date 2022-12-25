@@ -9,8 +9,6 @@
 #include "Texture.h"
 #include "ResourceManager.h"
 
-typedef ResourceManager rm;
-
 enum class BoundsType {
 	RECTANGLE = 0, CIRCLE = 1
 };

@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\glad\src\glad.c" />
+    <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\PolygonShape.cpp" />
     <ClCompile Include="src\Collisions.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\PolygonShape.h" />
     <ClInclude Include="src\Collisions.h" />
