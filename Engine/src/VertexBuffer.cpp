@@ -1,6 +1,7 @@
 #include "VertexBuffer.h"
+#include "ErrorHandler.h"
 #include <glad/glad.h>
-#include "Renderer.h"
+#include <iostream>
 
 VertexBuffer::VertexBuffer(const void* data, unsigned int size) {
 	lcall(glGenBuffers(1, &m_ID));

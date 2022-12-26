@@ -31,7 +31,7 @@ void Text::Draw(const char* text)
 	s.Position = glm::vec2(100, 0);
 	Sprite a("wall");
 	a.Size = glm::vec2(50, 50);
-	SB->Draw(s);
 	SB->Draw(a);
+	SB->Draw(s);
 	SB->End();
 }

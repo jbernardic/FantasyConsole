@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-#include "Renderer.h"
+#include "RectangleShape.h"
 #include "Variables.h"
 #include "ResourceManager.h"
 #include "Window.h"
@@ -13,6 +13,7 @@
 #include "SpriteBatch.h"
 #include "Text.h"
 #include <array>
+#include <PolygonShape.h>
 
 using namespace std;
 
@@ -26,37 +27,27 @@ int main()
 	rm::LoadTexture("Resources/01-generic.png", "sheet");
 	rm::LoadTexture("Resources/ExportedFont.bmp", "font");
 
-	Text::Init("font", glm::vec2(24, 24));
-
 	RectangleShape background(s_width, s_height, 0, 0);
 	background.SetTexture("background");
-	Sprite s("sheet", 4, glm::vec2(16.0, 16.0));
-	s.Size = glm::vec2(100, 100);
-	s.Position = glm::vec2(100, 0);
-	Sprite a("wall");
-	a.Size = glm::vec2(50, 50);
 
-	SpriteBatch sp;
+	PolygonShape poly(100, 4, 50, 50);
+	poly.SetTexture("wall");
+	poly.RemoveTexture();
+	poly.SetColor(1.0, 1.0, 1.0, 1.0);
+	poly.SetTexture("wall");
+
+	Text::Init("font", glm::vec2(24, 24));
+	//SpriteBatch sp;
 
 	while (Window::IsOpen())
 	{
 		if (Input::GetKeyState(GLFW_KEY_D)) {
-			s.CellIndex++;
 		}
 
-		Renderer::Clear();
-
-		//sp.Begin();
-		//Sprite s("sheet", 4, glm::vec2(16.0, 16.0));
-		//s.Size = glm::vec2(100, 100);
-		//s.Position = glm::vec2(100, 0);
-		//Sprite a("wall");
-		//a.Size = glm::vec2(50, 50);
-		//sp.Draw(s);
-		//sp.Draw(a);
-		//sp.End();
-
+		Window::Clear(0.5f, 0.5f, 1.0f, 1.0f);
+		background.Draw();
 		Text::Draw("A");
+		poly.Draw();
 
 		Window::Display();
 	}

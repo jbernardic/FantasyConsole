@@ -58,6 +58,7 @@ void SpriteBatch::Draw(Sprite& sprite)
 void SpriteBatch::End() {
 	m_Shader->Bind();
 	m_VA.Bind();
+	m_IB->Bind();
 	lcall(glDrawElements(GL_TRIANGLES, m_BufferSize/(4*sizeof(Vertex))*6, GL_UNSIGNED_INT, nullptr));
 	m_BufferSize = 0;
 	m_Textures.clear();

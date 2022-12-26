@@ -1,6 +1,7 @@
 #include "IndexBuffer.h"
 #include <glad/glad.h>
-#include "Renderer.h"
+#include "ErrorHandler.h"
+#include <iostream>
 #include <array>
 
 

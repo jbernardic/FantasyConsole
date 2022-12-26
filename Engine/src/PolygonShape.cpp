@@ -1,7 +1,7 @@
 #include "PolygonShape.h"
 
 PolygonShape::PolygonShape(float r, unsigned int pNum, float x, float y)
-	:m_PointNumber(pNum), m_Radius(r), Shape(nullptr, nullptr, r, r, glm::vec2(x,y), m_VA, pNum*4+8)
+	:m_PointNumber(pNum), m_Radius(r), Shape(r, r, glm::vec2(x,y))
 {
 	std::vector<float> vert;
 	std::vector<float> coords;
@@ -36,8 +36,12 @@ PolygonShape::PolygonShape(float r, unsigned int pNum, float x, float y)
 	m_VB = std::make_shared<VertexBuffer>(vert.data(), vert.size() * sizeof(float));
 	m_VA.AddBuffer(*m_VB, 0, 2, GL_FLOAT, 4);
 	m_VA.AddBuffer(*m_VB, 1, 2, GL_FLOAT, 4);
+}
 
-	SetCollisisionBoundsType(BoundsType::CIRCLE);
-	SetPolygon(true);
-
+void PolygonShape::Draw() {
+	m_Shader->Bind();
+	m_VA.Bind();
+	if (m_Texture) { m_Texture->Bind(); }
+	lcall(glDrawArrays(GL_TRIANGLE_FAN, 0, m_PointNumber * 4 + 8));
+	if (m_Texture) { m_Texture->UnBind(); }
 }

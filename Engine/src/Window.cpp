@@ -46,3 +46,9 @@ void Window::Display() {
 void Window::Terminate() {
 	glfwTerminate();
 }
+
+void Window::Clear(float r, float g, float b, float a)
+{
+	glClearColor(r, g, b, a);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
