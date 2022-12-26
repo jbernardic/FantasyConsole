@@ -23,6 +23,7 @@ SpriteBatch::SpriteBatch() {
 	m_VA.AddBuffer(m_VB, 1, 4, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, Color) / sizeof(float));
 	m_VA.AddBuffer(m_VB, 2, 2, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, TexCoord) / sizeof(float));
 	m_VA.AddBuffer(m_VB, 3, 1, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, TexIndex) / sizeof(float));
+	m_VA.AddBuffer(m_VB, 4, 1, GL_FLOAT, sizeof(Vertex) / sizeof(float), offsetof(Vertex, IsBitmap) / sizeof(float));
 	m_IB->Bind();
 
 	rm::LoadShader("Resources/Sprite.Shader", "sprite" + std::to_string(Instance));
@@ -62,7 +63,7 @@ void SpriteBatch::End() {
 	m_Textures.clear();
 }
 
-void SpriteBatch::Start() {
+void SpriteBatch::Begin() {
 	m_BufferSize = 0;
 	m_Textures.clear();
 }

@@ -15,9 +15,8 @@ void Renderer::Draw(const Shape& shape) {
 	}
 
 	if (shape.HasTexture()) shape.GetTexture().UnBind();
-
-
 }
+
 void Renderer::Clear() {
 	glClearColor(0.5, 0.5, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);

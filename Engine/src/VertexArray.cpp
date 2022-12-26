@@ -22,14 +22,14 @@ void VertexArray::UnBind() const {
 	lcall(glBindVertexArray(0));
 }
 
-void VertexArray::AddBuffer(VertexBuffer& vb, unsigned int layout, unsigned int count, unsigned int type, unsigned int stride, unsigned int pointer) {
+void VertexArray::AddBuffer(VertexBuffer& vb, unsigned int index, unsigned int count, unsigned int type, unsigned int stride, unsigned int pointer) {
 	Bind();
 	vb.Bind();
 	if (m_VB != &vb) m_Offset = 0;
 	if (pointer != 0) { m_Offset = pointer; }
 	if (type == GL_FLOAT) {
-		glVertexAttribPointer(layout, count, GL_FLOAT, GL_FALSE, sizeof(float) * stride, (void*)(m_Offset *sizeof(float)));
-		glEnableVertexAttribArray(layout);
+		glVertexAttribPointer(index, count, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(m_Offset *sizeof(float)));
+		glEnableVertexAttribArray(index);
 		m_VB = &vb;
 		
 	}

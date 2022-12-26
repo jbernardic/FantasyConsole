@@ -181,6 +181,7 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
+    <ClCompile Include="src\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Sprite.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src\Variables.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\Text.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FantasyConsole\Resources\Shape.shader" />

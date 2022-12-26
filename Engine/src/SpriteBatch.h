@@ -11,7 +11,7 @@ public:
 	SpriteBatch();
 	void Draw(Sprite& sprite);
 	void End();
-	void Start();
+	void Begin();
 	static unsigned int Instance;
 private:
 	size_t m_BufferSize = 0;

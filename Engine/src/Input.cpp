@@ -1,5 +1,7 @@
+#include "Window.h"
 #include "Input.h"
 #include "ErrorHandler.h"
+
 
 std::map<int, bool> Input::Keys;
 
@@ -23,4 +25,8 @@ void Input::window_resize_callback(GLFWwindow* window, int width, int height) {
 void Input::SetCallbacks(GLFWwindow* window) {
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetFramebufferSizeCallback(window, Input::window_resize_callback);
+}
+
+void Input::OnKeyPressed(void (*func)(GLFWwindow* window, int key, int scancode, int action, int mods)) {
+	glfwSetKeyCallback(Window::Get(), func);
 }

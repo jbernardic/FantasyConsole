@@ -9,6 +9,7 @@ public:
 	static bool IsOpen();
 	static void Display();
 	static void Terminate();
+	static GLFWwindow* Get() { return window; }
 
 private:
 	static GLFWwindow* window;

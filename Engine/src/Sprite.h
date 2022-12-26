@@ -7,6 +7,7 @@ struct Vertex {
 	glm::vec4 Color;
 	glm::vec2 TexCoord;
 	float TexIndex;
+	float IsBitmap;
 };
 
 struct Sprite {
@@ -19,6 +20,7 @@ struct Sprite {
 	glm::vec4 Color = glm::vec4(1.0);
 	glm::vec2 CellSize = glm::vec2();
 	unsigned int CellIndex = 0;
+	bool IsBitmap = false;
 };
 
 //class SpriteSheet {
