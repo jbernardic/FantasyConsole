@@ -8,11 +8,11 @@ glm::vec2 Text::CellSize;
 static unsigned int val = 0;
 
 static std::vector<Sprite> sprites;
-
+static int prevKey = 0;
 static void onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	Sprite s = Sprite(Text::TextureName, key, Text::CellSize);
-	s.Position = glm::vec2(50, 50);
-	sprites.push_back(s);
+	if(key != prevKey) sprites.push_back(s);
+	prevKey = key;
 }
 
 void Text::Init(const char* texture, glm::vec2 cellSize) {
@@ -23,15 +23,11 @@ void Text::Init(const char* texture, glm::vec2 cellSize) {
 }
 void Text::Draw(const char* text)
 {
-
-	//BROKEN SB
 	SB->Begin();
-	Sprite s("sheet", 4, glm::vec2(16.0, 16.0));
-	s.Size = glm::vec2(100, 100);
-	s.Position = glm::vec2(100, 0);
-	Sprite a("wall");
-	a.Size = glm::vec2(50, 50);
-	SB->Draw(a);
-	SB->Draw(s);
+	for (int i = 0; i < sprites.size(); i++) {
+		sprites[i].Position = glm::vec2(24 * i, 0);
+		sprites[i].IsBitmap = true;
+		SB->Draw(sprites[i]);
+	}
 	SB->End();
 }

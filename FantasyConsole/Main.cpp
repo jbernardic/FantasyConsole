@@ -47,7 +47,6 @@ int main()
 		Window::Clear(0.5f, 0.5f, 1.0f, 1.0f);
 		background.Draw();
 		Text::Draw("A");
-		poly.Draw();
 
 		Window::Display();
 	}
