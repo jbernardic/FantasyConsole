@@ -18,9 +18,9 @@ public:
 	void Scale(glm::vec2 times);
 	void Rotate(float angle);
 	void SetPosition(float posx, float posy);
-	glm::vec2 GetPosition() { return m_Position; }
 	void Translate(glm::vec2 vec);
 	void SetColor(float a, float b, float c, float d);
+	glm::vec2 GetPosition() { return m_Position; }
 	static unsigned int instance;
 protected:
 	glm::vec2 m_Position = glm::vec2(0.0f);

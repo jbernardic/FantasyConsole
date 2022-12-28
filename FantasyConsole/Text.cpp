@@ -17,13 +17,13 @@ std::unique_ptr<RectangleShape> cursor;
 void onKey(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (key == 259 && !characters.empty() && action > 0) { //delete char
 
-		if (characters.back().CellIndex != 0) cursor->SetPosition(cursor->GetPosition().x - LetterSpacing, cursor->GetPosition().y);
-		else cursor->SetPosition(cursor->GetPosition().x - SpaceSpacing, cursor->GetPosition().y);
-
+		if (characters.back().CellIndex != 0) cursor->Translate(glm::vec2(-(int)LetterSpacing, 0));
+		else cursor->Translate(glm::vec2(-(int)SpaceSpacing, 0));
 		characters.pop_back();
 	}
 	else if (key == 257 && action > 0) { //if ENTER pressed
 		Sprite s = Sprite(Text::TextureName, -1, Text::CellSize);
+		cursor->Translate(glm::vec2(-cursor->GetPosition().x, LineSpacing));
 		characters.push_back(s);
 	}
 }
@@ -43,9 +43,10 @@ void Text::Init(const char* texture, glm::vec2 cellSize) {
 	TextureName = texture;
 	CellSize = cellSize;
 	SB = std::make_unique<SpriteBatch>();
-	glfwSetCharCallback(Window::Get(), onCharacter);
-	glfwSetKeyCallback(Window::Get(), onKey);
 	cursor = std::make_unique<RectangleShape>(14, 16);
+
+	Input::AddEventListener("onTextCharacter", (CharacterInputCallback)onCharacter);
+	Input::AddEventListener("onTextKey", (KeyInputCallback)onKey);
 }
 void Text::DrawInput(glm::vec2 position)
 {

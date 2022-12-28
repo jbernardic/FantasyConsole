@@ -30,7 +30,7 @@ void Window::Create()
 	glfwSwapInterval(1);
 	gladLoadGL();
 
-	Input::SetCallbacks(window);
+	Input::Init(window);
 	Window::window = window;
 }
 

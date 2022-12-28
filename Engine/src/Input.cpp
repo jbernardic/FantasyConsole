@@ -1,32 +1,28 @@
-#include "Window.h"
 #include "Input.h"
-#include "ErrorHandler.h"
 
-
-std::map<int, bool> Input::Keys;
+std::map<int, bool> Input::keys;
+std::unordered_map<const char*, std::function<void(GLFWwindow*, unsigned int)>> Input::onCharacterListeners;
+std::unordered_map<const char*, std::function<void(GLFWwindow*, int, int, int, int)>> Input::onKeyListeners;
 
 bool Input::GetKeyState(int key) {
-	return Keys[key];
+	return keys[key];
 }
-
-void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (action == GLFW_PRESS) {
-		Input::Keys[key] = true;
-	}
-	if (action == GLFW_RELEASE) {
-		Keys[key] = false;
-	}
-}
-
-void Input::window_resize_callback(GLFWwindow* window, int width, int height) {
-	lcall(glViewport(0, 0, width, height));
-}
-
-void Input::SetCallbacks(GLFWwindow* window) {
+void Input::Init(GLFWwindow* window) {
 	glfwSetKeyCallback(window, key_callback);
-	glfwSetFramebufferSizeCallback(window, Input::window_resize_callback);
+	glfwSetCharCallback(window, character_callback);
+	glfwSetFramebufferSizeCallback(window, window_resize_callback);
 }
 
-void Input::OnKeyPressed(void (*func)(GLFWwindow* window, int key, int scancode, int action, int mods)) {
-	glfwSetKeyCallback(Window::Get(), func);
+void Input::RemoveEventListener(InputEvent event, const char* name) {
+	switch (event)
+	{
+	case OnCharacterInput:
+		onCharacterListeners.erase(name);
+		break;
+	case OnKeyInput:
+		onKeyListeners.erase(name);
+		break;
+	default:
+		break;
+	}
 }
