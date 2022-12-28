@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <array>
 
 #include "RectangleShape.h"
 #include "Variables.h"
@@ -11,9 +12,9 @@
 #include "Window.h"
 #include "Input.h"
 #include "SpriteBatch.h"
-#include "Text.h"
-#include <array>
-#include <PolygonShape.h>
+#include "TextRenderer.h"
+#include "PolygonShape.h"
+#include "TextEditor.h"
 
 using namespace std;
 
@@ -36,7 +37,8 @@ int main()
 	poly.SetColor(1.0, 1.0, 1.0, 1.0);
 	poly.SetTexture("wall");
 
-	Text::Init("font", glm::vec2(24, 24));
+	TextRenderer text("font", glm::vec2(24, 24));
+	TextEditor textEditor(text);
 	//SpriteBatch sp;
 
 	while (Window::IsOpen())
@@ -46,7 +48,7 @@ int main()
 
 		Window::Clear(0.5f, 0.5f, 1.0f, 1.0f);
 		background.Draw();
-		Text::DrawInput(glm::vec2());
+		textEditor.Draw();
 		Window::Display();
 	}
 	Window::Terminate();

@@ -140,7 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="TextEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shape.shader" />
@@ -152,7 +153,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Text.h" />
+    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="TextEditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,7 +18,10 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -27,7 +30,10 @@
     <None Include="Resources\Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
