@@ -18,6 +18,7 @@ public:
 	void Scale(glm::vec2 times);
 	void Rotate(float angle);
 	void SetPosition(float posx, float posy);
+	glm::vec2 GetPosition() { return m_Position; }
 	void Translate(glm::vec2 vec);
 	void SetColor(float a, float b, float c, float d);
 	static unsigned int instance;
