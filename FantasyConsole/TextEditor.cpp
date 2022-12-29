@@ -8,9 +8,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	KeyInputCallback keyCallback = [&](GLFWwindow* window, int key, int scan, int action, int mode) {
 		if (key == GLFW_KEY_BACKSPACE && !Text.empty() && action > 0) { //if BACKSPACE pressed
 			if (Text.back() == '\n') {
-				CursorPosition.y--;
-				CursorPosition.x = UINT16_MAX;
-				CursorPosition = FindCursor();
+				CursorPosition = FindCursor(UINT16_MAX, CursorPosition.y-1);
 			}
 			else CursorPosition.x--;
 			Text.pop_back();
@@ -24,9 +22,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 			unsigned int pos = FindCursorPosition(CursorPosition.x, CursorPosition.y);
 			if (pos <= 0) return;
 			if (Text[pos-1] == '\n') {
-				CursorPosition.y--;
-				CursorPosition.x = UINT16_MAX;
-				CursorPosition = FindCursor();
+				CursorPosition = FindCursor(UINT16_MAX, CursorPosition.y-1);
 			}
 			else if(CursorPosition.x>0) CursorPosition.x--;
 		}
@@ -41,12 +37,11 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 			}
 		}
 		else if (key == GLFW_KEY_UP && action > 0 && CursorPosition.y > 0) {
-			CursorPosition.y--;
-			CursorPosition = FindCursor();
+			CursorPosition = FindCursor(CursorPosition.x, CursorPosition.y-1);
 		}
 		else if (key == GLFW_KEY_DOWN && action > 0) {
-			CursorPosition.y++;
-			CursorPosition = FindCursor();
+			glm::vec2 cpos = FindCursor(CursorPosition.x, CursorPosition.y+1);
+			if (cpos.y != CursorPosition.y) CursorPosition = cpos;
 		}
 	};
 	//on character type
@@ -87,11 +82,11 @@ unsigned int TextEditor::FindCursorPosition(unsigned int x, unsigned int y)
 	return Text.size();
 }
 
-glm::vec2 TextEditor::FindCursor()
+glm::vec2 TextEditor::FindCursor(unsigned int cursorX, unsigned int cursorY)
 {
 	unsigned int x = 0;
 	unsigned int y = 0;
-	unsigned int pos = FindCursorPosition(CursorPosition.x, CursorPosition.y);
+	unsigned int pos = FindCursorPosition(cursorX, cursorY);
 	for (int i = 0; i < pos; i++) {
 		if (Text[i] == '\n') {
 			y++;
