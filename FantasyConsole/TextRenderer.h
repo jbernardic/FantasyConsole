@@ -8,7 +8,6 @@ public:
 	void Draw(glm::vec2 position, std::string);
 	glm::vec2 CellSize;
 	unsigned int FontSize = 16;
-	unsigned int SpaceSpacing = 10;
 	unsigned int LineSpacing = 16 + 4;
 	unsigned int LetterSpacing = 16 - 3;
 	const char* TextureName;

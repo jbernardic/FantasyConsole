@@ -43,7 +43,7 @@ int main()
 
 	while (Window::IsOpen())
 	{
-		if (Input::GetKeyState(GLFW_KEY_D)) {
+		if (Input::IsKeyPressed(GLFW_KEY_D)) {
 		}
 
 		Window::Clear(0.5f, 0.5f, 1.0f, 1.0f);

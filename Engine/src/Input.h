@@ -15,7 +15,7 @@ enum InputEvent {
 class Input {
 public:
 	static void Init(GLFWwindow* window);
-	static bool GetKeyState(int key);
+	static bool IsKeyPressed(int key);
 	static void RemoveEventListener(InputEvent, const char* name);
 
 	static void AddEventListener(const char* name, CharacterInputCallback func) {
@@ -29,23 +29,7 @@ private:
 	static std::unordered_map<const char*, CharacterInputCallback> onCharacterListeners;
 	static std::unordered_map<const char*, KeyInputCallback> onKeyListeners;
 
-	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-		if (action == GLFW_PRESS) {
-			keys[key] = true;
-		}
-		if (action == GLFW_RELEASE) {
-			keys[key] = false;
-		}
-		for (auto pair : onKeyListeners) {
-			pair.second(window, key, scancode, action, mods);
-		}
-	}
-	static void character_callback(GLFWwindow* window, unsigned int codepoint) {
-		for (auto pair : onCharacterListeners) {
-			pair.second(window, codepoint);
-		}
-	}
-	static void window_resize_callback(GLFWwindow* window, int width, int height) {
-		lcall(glViewport(0, 0, width, height));
-	}
+	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void character_callback(GLFWwindow* window, unsigned int codepoint);
+	static void window_resize_callback(GLFWwindow* window, int width, int height);
 };

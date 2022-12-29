@@ -21,9 +21,7 @@ void TextRenderer::Draw(glm::vec2 position, std::string text) {
 		character.Position = glm::vec2(x, y);
 		character.IsBitmap = true;
 		m_SB->Draw(character);
-
-		if (character.CellIndex == 0) x += SpaceSpacing;
-		else x += LetterSpacing;
+		x += LetterSpacing;
 	}
 	m_SB->End();
 }

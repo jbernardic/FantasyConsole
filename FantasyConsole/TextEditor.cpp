@@ -6,20 +6,58 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	m_Cursor.SetColor(1.0, 1.0, 1.0, 1.0);
 	//on key press
 	KeyInputCallback keyCallback = [&](GLFWwindow* window, int key, int scan, int action, int mode) {
-		if (key == 259 && !Text.empty() && action > 0) { //if BACKSPACE pressed
+		if (key == GLFW_KEY_BACKSPACE && !Text.empty() && action > 0) { //if BACKSPACE pressed
+			if (Text.back() == '\n') {
+				CursorPosition.y--;
+				CursorPosition.x = UINT16_MAX;
+				CursorPosition = FindCursor();
+			}
+			else CursorPosition.x--;
 			Text.pop_back();
-			CursorPosition--;
 		}
-		else if (key == 257 && action > 0) { //if ENTER pressed
+		else if (key == GLFW_KEY_ENTER && action > 0) { //if ENTER pressed
 			Text.push_back('\n');
-			CursorPosition++;
+			CursorPosition.x = 0;
+			CursorPosition.y++;
+		}
+		else if (key == GLFW_KEY_LEFT && action > 0) {
+			unsigned int pos = FindCursorPosition(CursorPosition.x, CursorPosition.y);
+			if (pos <= 0) return;
+			if (Text[pos-1] == '\n') {
+				CursorPosition.y--;
+				CursorPosition.x = UINT16_MAX;
+				CursorPosition = FindCursor();
+			}
+			else if(CursorPosition.x>0) CursorPosition.x--;
+		}
+		else if (key == GLFW_KEY_RIGHT && action > 0) {
+			unsigned int pos = FindCursorPosition(CursorPosition.x, CursorPosition.y);
+			if (pos < Text.size() && Text[pos] == '\n') {
+				CursorPosition.y++;
+				CursorPosition.x = 0;
+			}
+			else if (pos < Text.size()) {
+				CursorPosition.x++;
+			}
+		}
+		else if (key == GLFW_KEY_UP && action > 0 && CursorPosition.y > 0) {
+			CursorPosition.y--;
+			CursorPosition = FindCursor();
+		}
+		else if (key == GLFW_KEY_DOWN && action > 0) {
+			CursorPosition.y++;
+			CursorPosition = FindCursor();
 		}
 	};
 	//on character type
 	CharacterInputCallback characterCallback = [&](GLFWwindow* window, unsigned int codepoint) {
 		if (codepoint-32 < 224) { //if in character atlas
 			Text.push_back(codepoint);
-			CursorPosition++;
+			if (codepoint == '\n') {
+				CursorPosition.x = 0;
+				CursorPosition.y++;
+			}
+			else CursorPosition.x++;
 		}
 	};
 	Input::AddEventListener("TextEditorKey", keyCallback);
@@ -28,20 +66,38 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 
 void TextEditor::Draw()
 {
-	//find cursor position
-	unsigned int cursorX = 0;
-	unsigned int cursorY = 0;
-	for (int i = CursorPosition; i >= 0; i--) {
-		if (Text[i] == '\n') {
-			cursorY+=m_TextRenderer.LineSpacing;
-		}
-		else if(cursorY == 0){
-			if (Text[i] == ' ') cursorX += m_TextRenderer.SpaceSpacing;
-			else cursorX += m_TextRenderer.LetterSpacing;
-		}
-	}
-
-	m_Cursor.SetPosition(cursorX, cursorY);
+	m_Cursor.SetPosition(static_cast<float>(CursorPosition.x*m_TextRenderer.LetterSpacing), static_cast<float>(CursorPosition.y*m_TextRenderer.LineSpacing));
 	m_Cursor.Draw();
 	m_TextRenderer.Draw(Position, Text);
+}
+
+unsigned int TextEditor::FindCursorPosition(unsigned int x, unsigned int y)
+{
+	for (int i = 0; i < Text.size(); i++) {
+		if (x == 0 && y == 0) {
+			return i;
+		}
+		if (Text[i] == '\n') {
+			if (y == 0) return i;
+			y--;
+			continue;
+		}
+		if(y == 0) x--;
+	}
+	return Text.size();
+}
+
+glm::vec2 TextEditor::FindCursor()
+{
+	unsigned int x = 0;
+	unsigned int y = 0;
+	unsigned int pos = FindCursorPosition(CursorPosition.x, CursorPosition.y);
+	for (int i = 0; i < pos; i++) {
+		if (Text[i] == '\n') {
+			y++;
+			x = 0;
+		}
+		else x++;
+	}
+	return glm::vec2(x, y);
 }
