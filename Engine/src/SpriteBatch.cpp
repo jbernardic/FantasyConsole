@@ -51,6 +51,9 @@ void SpriteBatch::Draw(Sprite& sprite)
 
 	auto dataArray = sprite.GetVertices(static_cast<float>(texIndex));
 	m_VB.Bind();
+	if (m_BufferSize == 40000) {
+		std::cout << "a";
+	}
 	m_VB.SubData(dataArray.data(), dataArray.size() * sizeof(Vertex), static_cast<unsigned int>(m_BufferSize));
 	if(!textureBound) sprite.Texture->Bind(texIndex);
 	m_BufferSize += dataArray.size() * sizeof(Vertex);

@@ -15,6 +15,7 @@
 #include "TextRenderer.h"
 #include "PolygonShape.h"
 #include "TextEditor.h"
+#include "LuaScript.h"
 
 using namespace std;
 
@@ -31,15 +32,21 @@ int main()
 	RectangleShape background(s_width, s_height, 0, 0);
 	background.SetTexture("background");
 
-	PolygonShape poly(100, 4, 50, 50);
-	poly.SetTexture("wall");
-	poly.RemoveTexture();
-	poly.SetColor(1.0, 1.0, 1.0, 1.0);
-	poly.SetTexture("wall");
-
 	TextRenderer text("font", glm::vec2(24, 24));
 	TextEditor textEditor(text);
-	//SpriteBatch sp;
+	
+	LuaScript a;
+	a.Run();
+
+	Input::AddEventListener("KeyListener", [&](GLFWwindow*, int key, int scan, int action, int mods) {
+		//save
+		if (key == GLFW_KEY_S && action > 0 && Input::IsKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+			//ofstream file;
+			//file.open("cartridge.lua");
+			//file << textEditor.GetJointText();
+			//file.close();
+		}
+	});
 
 	while (Window::IsOpen())
 	{

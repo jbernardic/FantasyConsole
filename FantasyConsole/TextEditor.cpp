@@ -62,12 +62,7 @@ void TextEditor::Draw()
 	m_Cursor.SetPosition(static_cast<float>(CursorPosition.x*m_TextRenderer.LetterSpacing), static_cast<float>(CursorPosition.y*m_TextRenderer.LineSpacing));
 	m_Cursor.Draw();
 	if (Text.empty()) return;
-	std::string separator = "\n";
-	std::string result = std::accumulate(Text.begin() + 1, Text.end(), Text[0],
-		[&](const std::string& a, const std::string& b) {
-		return a + separator + b;
-	});
-	m_TextRenderer.Draw(Position, result);
+	m_TextRenderer.Draw(Position, GetJointText());
 }
 
 glm::vec2 TextEditor::FindCursor(int x, int y)
@@ -80,4 +75,14 @@ glm::vec2 TextEditor::FindCursor(int x, int y)
 	}
 	if (x >= Text[y].size()) x = Text[y].size();
 	return glm::vec2(x, y);
+}
+
+std::string TextEditor::GetJointText()
+{
+	std::string separator = "\n";
+	std::string result = std::accumulate(Text.begin() + 1, Text.end(), Text[0],
+		[&](const std::string& a, const std::string& b) {
+		return a + separator + b;
+	});
+	return result;
 }
