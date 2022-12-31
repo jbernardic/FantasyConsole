@@ -1,11 +1,6 @@
 #include "LuaScript.h"
 #include "ErrorHandler.h"
-#include <string>
 #include <iostream>
-
-LuaScript::LuaScript() {
-	NewState();
-}
 
 LuaScript::~LuaScript() {
 	Close();
@@ -13,29 +8,62 @@ LuaScript::~LuaScript() {
 
 void LuaScript::NewState()
 {
-	m_State = luaL_newstate();
+	L = luaL_newstate();
+	luaL_openlibs(L);
 }
 
 void LuaScript::Close()
 {
-	lua_close(m_State);
+	if (L != nullptr) lua_close(L);
+	L = nullptr;
 }
 
-void LuaScript::Run()
-{
-	std::string cmd = "a = 7 + 11a";
-	lua_State* L = luaL_newstate();
-	int r = luaL_dostring(L, cmd.c_str());
-	if (r == LUA_OK) {
-		lua_getglobal(L, "a");
-		if (lua_isnumber(L, -1)) {
-			float a_in_cpp = (float)lua_tonumber(L, -1);
-			std::cout << "a";
+bool LuaScript::CheckLua(int r, bool showError=true) {
+	if (r != LUA_OK) {
+		if (showError) {
+			std::string error = lua_tostring(L, -1);
+			std::cout << error << std::endl;
+			lua_pop(L, -1);
 		}
+		return false;
 	}
-	else {
-		std::string errormsg = lua_tostring(L, -1);
-		std::cout << errormsg << std::endl;
-	}
-	lua_close(L);
+	return true;
 }
+
+bool LuaScript::Run(std::string script)
+{
+	return CheckLua(luaL_dostring(L, script.c_str()));
+}
+
+float LuaScript::GetNumber(const char* var)
+{
+	lua_getglobal(L, var);
+	if (lua_isnumber(L, -1)) {
+		return (float)lua_tonumber(L, -1);
+	}
+	std::cout << "Number is invalid!" << std::endl;
+	return 0.0;
+}
+
+std::string LuaScript::GetString(const char* var)
+{
+	lua_getglobal(L, var);
+	if (lua_isstring(L, -1)) {
+		return lua_tostring(L, -1);
+	}
+	std::cout << "String is invalid!" << std::endl;
+	return std::string();
+}
+
+bool LuaScript::CallFunction(const char* func) {
+	lua_getglobal(L, func);
+	if (!lua_isfunction(L, -1)) {
+		lua_pop(L, -1);
+		return false;
+	}
+	if (CheckLua(lua_pcall(L, 0, 0, 0))) {
+		return true;
+	}
+	return false;
+}
+
