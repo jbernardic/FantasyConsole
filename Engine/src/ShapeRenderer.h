@@ -11,6 +11,6 @@ public:
 	void DrawCircle(glm::vec2 position, glm::vec4 color);
 private:
 	std::vector<std::unique_ptr<Shape>> m_Shapes;
-	unsigned int m_ShapeIndex;
+	unsigned int m_ShapeIndex = 0;
 };
 

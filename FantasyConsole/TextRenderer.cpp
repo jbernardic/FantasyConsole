@@ -20,7 +20,7 @@ void TextRenderer::Draw(glm::vec2 position, std::string text) {
 		if (Uppercase && codepoint >= 97 && codepoint <= 122) codepoint -= 32; //change to uppercase if Uppercase is true
 		Sprite character(TextureName, codepoint-32, CellSize); //codepoint-32 -> for bitmap texture
 		character.Size = glm::vec2(FontSize, FontSize);
-		character.Position = glm::vec2(x, y);
+		character.Position = glm::vec2(x, y)+position;
 		character.IsBitmap = true;
 		m_SB->Draw(character);
 		x += LetterSpacing;

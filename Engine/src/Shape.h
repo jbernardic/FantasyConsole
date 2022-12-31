@@ -11,7 +11,7 @@
 
 class Shape {
 public:
-	Shape(float width, float height, glm::vec2 position);
+	Shape(glm::vec2 position, float width, float height);
 	virtual void Draw() {};
 	void SetTexture(const char* name);
 	void RemoveTexture();

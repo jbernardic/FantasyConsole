@@ -7,7 +7,7 @@ struct DrawablePolygonShape {
 };
 class PolygonShape : public Shape{
 public:
-	PolygonShape(float radius = 100.0f, unsigned int numberOfPoints = 100, float x = 0.0f, float y = 0.0f);
+	PolygonShape(float x = 0.0f, float y = 0.0f, float radius = 100.0f, unsigned int numberOfPoints = 100);
 	void Draw();
 	 const VertexArray& GetVertexArray() const{ return m_VA; };
 	 unsigned int GetID() const{return m_VA.GetRendID();}

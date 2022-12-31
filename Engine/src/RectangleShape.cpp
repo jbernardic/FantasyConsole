@@ -1,6 +1,6 @@
 #include "RectangleShape.h"
 
-RectangleShape::RectangleShape(float width, float height, float x, float y) : Shape(width, height, glm::vec2(x, y))
+RectangleShape::RectangleShape(float x, float y, float width, float height) : Shape(glm::vec2(x, y), width, height)
 {
 	m_VA.AddBuffer(m_VB, 0, 2, GL_FLOAT, 4);
 	m_VA.AddBuffer(m_VB, 1, 2, GL_FLOAT, 4);

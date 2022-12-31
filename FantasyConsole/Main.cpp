@@ -74,6 +74,9 @@ int main()
 	TextRenderer text("font", glm::vec2(8, 8));
 	text.Uppercase = true;
 	TextEditor textEditor(text);
+	textEditor.Position = glm::vec2(5, 20);
+	RectangleShape navigation(0, 0, s_width, 15);
+	navigation.SetColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	LuaScript script;
 	bool isGameRunning = false;
@@ -105,6 +108,7 @@ int main()
 			glm::vec4 color = colors[5] / 255.0f;
 			Window::Clear(color.r, color.g, color.b, color.a);
 			textEditor.Draw();
+			navigation.Draw();
 		}
 		else {
 			Window::Clear(0.0, 0.0, 0.0, 1.0);

@@ -4,7 +4,7 @@
 
 unsigned int Shape::instance = 0;
 
-Shape::Shape(float width, float height, glm::vec2 pos)
+Shape::Shape(glm::vec2 pos, float width, float height)
 	: m_Position(pos)
 {
 	rm::LoadShader("Resources/Shape.Shader", "shape" + std::to_string(instance));
@@ -14,7 +14,7 @@ Shape::Shape(float width, float height, glm::vec2 pos)
 	m_Model = glm::translate(m_Model, glm::vec3(m_Position.x / m_Size.x, m_Position.y / m_Size.y, 0.0f));
 
 	m_Shader->SetMatrix4("model", m_Model);
-	m_Shader->SetFloat4("Color", 1.0f, 1.0f, 1.0f, 1.0f);
+	m_Shader->SetFloat4("color", 1.0f, 1.0f, 1.0f, 1.0f);
 	instance++;
 
 }

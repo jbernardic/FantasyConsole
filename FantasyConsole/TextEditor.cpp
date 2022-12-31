@@ -59,9 +59,9 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 
 void TextEditor::Draw()
 {
-	m_Cursor.SetPosition(static_cast<float>(CursorPosition.x*m_TextRenderer.LetterSpacing), static_cast<float>(CursorPosition.y*m_TextRenderer.LineSpacing));
+	m_Cursor.SetPosition(static_cast<float>(CursorPosition.x*m_TextRenderer.LetterSpacing+Position.x), 
+		static_cast<float>(CursorPosition.y*m_TextRenderer.LineSpacing+Position.y  - (m_TextRenderer.LineSpacing-m_TextRenderer.FontSize)+0.5f));
 	m_Cursor.Draw();
-	if (Text.empty()) return;
 	m_TextRenderer.Draw(Position, GetJointText());
 }
 

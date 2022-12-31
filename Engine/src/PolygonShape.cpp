@@ -1,7 +1,7 @@
 #include "PolygonShape.h"
 
-PolygonShape::PolygonShape(float r, unsigned int pNum, float x, float y)
-	:m_PointNumber(pNum), m_Radius(r), Shape(r, r, glm::vec2(x,y))
+PolygonShape::PolygonShape(float x, float y, float r, unsigned int pNum)
+	:m_PointNumber(pNum), m_Radius(r), Shape(glm::vec2(x, y), r, r)
 {
 	std::vector<float> vert;
 	std::vector<float> coords;
