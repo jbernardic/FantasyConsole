@@ -10,7 +10,7 @@
 
 class RectangleShape : public Shape{
 public:
-	RectangleShape(float width = 100.0f, float height = 100.0f, float x = 0.0f, float y = 0.0f);
+	RectangleShape(float x = 0.0f, float y = 0.0f, float width = 100.0f, float height = 100.0f);
 	void Draw();
 private:
 	float m_Vertices[16] = {

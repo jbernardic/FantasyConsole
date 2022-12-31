@@ -19,7 +19,7 @@ Shader::Shader(const std::string& path)
 
 Shader::~Shader() {
 	std::cout << "shader dtor" << std::endl;
-	//glDeleteProgram(m_ID); change later
+	glDeleteProgram(m_ID);
 }
 
 ShaderSrc Shader::GetShaderSource(const string& path) {

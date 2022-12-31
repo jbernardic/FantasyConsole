@@ -17,6 +17,7 @@
 #include "PolygonShape.h"
 #include "TextEditor.h"
 #include "LuaScript.h"
+#include "ShapeRenderer.h"
 
 using namespace std;
 
@@ -39,6 +40,8 @@ static glm::vec4 colors[16] = {
 	glm::vec4(255, 204, 170, 255)
 };
 
+static ShapeRenderer LuaShapes;
+
 int lua_CLS(lua_State* L) {
 	unsigned int c = lua_tonumber(L, 1);
 	glm::vec4 color = colors[c] / (float)255;
@@ -52,10 +55,8 @@ int lua_RECT(lua_State* L) {
 	float width = lua_tonumber(L, 3);
 	float height = lua_tonumber(L, 4);
 	unsigned int c = lua_tonumber(L, 5);
-	RectangleShape rect(width, height, x, y);
 	glm::vec4 color = colors[c] / (float)255;
-	rect.SetColor(color.r, color.g, color.b, color.a);
-	rect.Draw();
+	LuaShapes.DrawRectangle(glm::vec4(x, y, width, height), color);
 	return 0;
 }
 
@@ -73,7 +74,7 @@ int main()
 	TextRenderer text("font", glm::vec2(8, 8));
 	text.Uppercase = true;
 	TextEditor textEditor(text);
-	
+
 	LuaScript script;
 	bool isGameRunning = false;
 
@@ -93,6 +94,7 @@ int main()
 			else {
 				script.Close();
 				isGameRunning = false;
+				LuaShapes.Clear();
 			}
 		}
 	});
@@ -108,6 +110,7 @@ int main()
 			Window::Clear(0.0, 0.0, 0.0, 1.0);
 			script.CallFunction("_update");
 			script.CallFunction("_draw");
+			LuaShapes.Draw();
 		}
 		Window::Display();
 	}

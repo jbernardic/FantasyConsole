@@ -8,9 +8,7 @@ class Texture {
 public:
 	Texture(const char* path);
 	Texture() {}
-	~Texture() {
-		std::cout << "texture dtor";
-	}
+	~Texture();
 	const void Bind() const;
 	const void Bind(unsigned int unit) const;
 	const void UnBind() const;

@@ -21,6 +21,7 @@ public:
 	void Translate(glm::vec2 vec);
 	void SetColor(float a, float b, float c, float d);
 	glm::vec2 GetPosition() { return m_Position; }
+	glm::vec2 GetSize() { return m_Size; }
 	static unsigned int instance;
 protected:
 	glm::vec2 m_Position = glm::vec2(0.0f);
