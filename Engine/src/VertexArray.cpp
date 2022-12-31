@@ -10,7 +10,6 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray() {
 
-	std::cout << "VA DTOR" << std::endl;
 	lcall(glDeleteVertexArrays(1, &m_ID));
 }
 

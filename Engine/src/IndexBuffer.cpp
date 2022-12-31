@@ -13,7 +13,6 @@ IndexBuffer::IndexBuffer(unsigned int* indices, unsigned int count)
 }
 
 IndexBuffer::~IndexBuffer() {
-	std::cout << "IndexBuffer DTOR" <<std::endl;
 	lcall(glDeleteBuffers(1, &m_ID));
 }
 

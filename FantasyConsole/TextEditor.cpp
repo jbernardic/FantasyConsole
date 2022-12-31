@@ -48,7 +48,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	//on character type
 	CharacterInputCallback characterCallback = [&](GLFWwindow* window, unsigned int codepoint) {
 		if (codepoint-32 < 224) { //if in character atlas
-			if (Text.size() <= CursorPosition.y) Text.push_back("");
+			if (codepoint >= 65 && codepoint <= 90) codepoint += 32; //change to lowercase for Lua interpreter
 			Text[CursorPosition.y].insert(CursorPosition.x, 1, codepoint);
 			CursorPosition.x++;
 		}

@@ -68,17 +68,10 @@ int lua_BTN(lua_State* L) {
 int main()
 {
 	Window::Create();
-
-	rm::LoadTexture("Resources/Assets/background.png", "background");
-	rm::LoadTexture("Resources/wall.jpg", "wall");
-	rm::LoadTexture("Resources/Assets/Spaceships/01/Spaceship_01_GREEN.png", "player");
-	rm::LoadTexture("Resources/01-generic.png", "sheet");
 	rm::LoadTexture("Resources/ExportedFont.bmp", "font");
 
-	RectangleShape background(s_width, s_height, 0, 0);
-	background.SetTexture("background");
-
-	TextRenderer text("font", glm::vec2(24, 24));
+	TextRenderer text("font", glm::vec2(8, 8));
+	text.Uppercase = true;
 	TextEditor textEditor(text);
 	
 	LuaScript script;
@@ -107,12 +100,12 @@ int main()
 	while (Window::IsOpen())
 	{
 		if (!isGameRunning) {
-			Window::Clear(0.5f, 0.5f, 1.0f, 1.0f);
-			background.Draw();
+			glm::vec4 color = colors[5] / 255.0f;
+			Window::Clear(color.r, color.g, color.b, color.a);
 			textEditor.Draw();
 		}
 		else {
-			Window::Clear(0.5f, 0.5f, 1.0f, 1.0f);
+			Window::Clear(0.0, 0.0, 0.0, 1.0);
 			script.CallFunction("_update");
 			script.CallFunction("_draw");
 		}

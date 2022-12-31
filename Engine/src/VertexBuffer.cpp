@@ -14,7 +14,6 @@ VertexBuffer::VertexBuffer(unsigned int size) {
 	lcall(glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW));
 }
 VertexBuffer::~VertexBuffer() {
-	std::cout << "VertexBuffer dtor"<<std::endl;
 	lcall(glDeleteBuffers(1, &m_ID));
 }
 
