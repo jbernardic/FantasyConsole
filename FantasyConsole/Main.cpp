@@ -74,8 +74,8 @@ int main()
 	TextRenderer text("font", glm::vec2(8, 8));
 	text.Uppercase = true;
 	TextEditor textEditor(text);
-	textEditor.Position = glm::vec2(5, 20);
-	RectangleShape navigation(0, 0, s_width, 15);
+	textEditor.Position = glm::vec2(2, 16);
+	RectangleShape navigation(0, 0, s_width, 12);
 	navigation.SetColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	LuaScript script;
@@ -109,6 +109,8 @@ int main()
 			Window::Clear(color.r, color.g, color.b, color.a);
 			textEditor.Draw();
 			navigation.Draw();
+			text.Draw(glm::vec2(2, 3), "KONZOLA");
+			text.Draw(glm::vec2(s_width-50, 3), "F5-RUN");
 		}
 		else {
 			Window::Clear(0.0, 0.0, 0.0, 1.0);

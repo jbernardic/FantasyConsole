@@ -7,7 +7,8 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	m_Cursor.SetColor(1.0, 1.0, 1.0, 1.0);
 	//on key press
 	KeyInputCallback keyCallback = [&](GLFWwindow* window, int key, int scan, int action, int mode) {
-		if (key == GLFW_KEY_BACKSPACE && !Text.empty() && action > 0 && !(CursorPosition.x == 0 && CursorPosition.y == 0)) { //if BACKSPACE pressed
+		if (action <= 0) return;
+		if (key == GLFW_KEY_BACKSPACE && !Text.empty() && !(CursorPosition.x == 0 && CursorPosition.y == 0)) { //if BACKSPACE pressed
 			if (CursorPosition.x == 0 && CursorPosition.y > 0) {
 				std::string s = Text[CursorPosition.y];
 				Text.erase(Text.begin() + CursorPosition.y);
@@ -19,30 +20,33 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 				Text[CursorPosition.y].erase(CursorPosition.x, 1);
 			}
 		}
-		else if (key == GLFW_KEY_ENTER && action > 0) { //if ENTER pressed
+		else if (key == GLFW_KEY_ENTER) { //if ENTER pressed
 			std::string s = Text[CursorPosition.y].substr(CursorPosition.x);
 			Text.insert(Text.begin() + CursorPosition.y+1, s);
 			Text[CursorPosition.y] = Text[CursorPosition.y].substr(0, CursorPosition.x);
 			CursorPosition.x = 0;
 			CursorPosition.y++;
 		}
-		else if (key == GLFW_KEY_LEFT && action > 0) {
+		else if (key == GLFW_KEY_LEFT) {
 			if (CursorPosition.x <= 0 && CursorPosition.y > 0) {
 				CursorPosition = FindCursor(UINT16_MAX, CursorPosition.y-1);
 			}
 			else CursorPosition = FindCursor(CursorPosition.x - 1, CursorPosition.y);
 		}
-		else if (key == GLFW_KEY_RIGHT && action > 0) {
+		else if (key == GLFW_KEY_RIGHT) {
 			if (CursorPosition.x >= Text[CursorPosition.y].size() && CursorPosition.y < Text.size() - 1) {
 				CursorPosition = FindCursor(0, CursorPosition.y + 1);
 			}
 			else CursorPosition = FindCursor(CursorPosition.x+1, CursorPosition.y);
 		}
-		else if (key == GLFW_KEY_UP && action > 0 && CursorPosition.y > 0) {
-			CursorPosition = FindCursor(CursorPosition.x, CursorPosition.y-1);
+		else if (key == GLFW_KEY_UP && CursorPosition.y > 0) {
+			CursorPosition = FindCursor(m_PreferredCol, CursorPosition.y - 1);
 		}
-		else if (key == GLFW_KEY_DOWN && action > 0) {
-			CursorPosition = FindCursor(CursorPosition.x, CursorPosition.y+1);
+		else if (key == GLFW_KEY_DOWN) {
+			CursorPosition = FindCursor(m_PreferredCol, CursorPosition.y + 1);
+		}
+		if (key != GLFW_KEY_UP && key != GLFW_KEY_DOWN) {
+			m_PreferredCol = CursorPosition.x;
 		}
 	};
 	//on character type
@@ -51,6 +55,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 			if (codepoint >= 65 && codepoint <= 90) codepoint += 32; //change to lowercase for Lua interpreter
 			Text[CursorPosition.y].insert(CursorPosition.x, 1, codepoint);
 			CursorPosition.x++;
+			m_PreferredCol = CursorPosition.x;
 		}
 	};
 	Input::AddEventListener("TextEditorKey", keyCallback);
