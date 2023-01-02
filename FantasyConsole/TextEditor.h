@@ -13,6 +13,7 @@ public:
 	//returns closest character to x and y in grid
 	glm::vec2 FindCursor(int x, int y);
 	std::string GetJointText();
+	unsigned int CharacterCount = 0;
 private:
 	TextRenderer& m_TextRenderer;
 	RectangleShape m_Cursor = RectangleShape(0.0f, 0.0f, static_cast<float>(m_TextRenderer.LetterSpacing), static_cast<float>(m_TextRenderer.LineSpacing));

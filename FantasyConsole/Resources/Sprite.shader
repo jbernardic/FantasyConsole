@@ -40,5 +40,6 @@ void main() {
 	int index = int(v_TexIndex);
 	vec4 tex = texture(textures[index], v_TexCoord);
 	if(v_IsBitmap > 0.5) tex = vec4(tex.r, tex.g, tex.b, tex.r);
-	o_Color = tex;
+	if (v_TexCoord == vec2(-1.0)) tex = vec4(1.0);
+	o_Color = tex*v_Color;
 }

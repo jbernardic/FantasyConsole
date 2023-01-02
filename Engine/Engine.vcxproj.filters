@@ -18,7 +18,6 @@
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
-    <ClCompile Include="src\ShapeRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h" />
@@ -36,7 +35,6 @@
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\Sprite.h" />
-    <ClInclude Include="src\ShapeRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header files">

@@ -37,6 +37,11 @@ Texture::Texture(const char* path)
 	}
 	stbi_image_free(data);
 }
+Texture::Texture() {
+	glGenTextures(1, &m_Texture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_Texture);
+}
 Texture::~Texture()
 {
 	glDeleteTextures(1, &m_Texture);

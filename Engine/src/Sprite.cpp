@@ -8,7 +8,8 @@ Sprite::Sprite(const char* texture) {
 }
 
 Sprite::Sprite(const char* texture, unsigned int cellIndex, glm::vec2 cellSize) : Size(cellSize), CellSize(cellSize), CellIndex(cellIndex) {
-	Texture = &rm::GetTexture(texture);
+	if (texture != nullptr) Texture = &rm::GetTexture(texture);
+	else Texture = &rm::GetEmptyTexture();
 }
 
 std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
@@ -36,28 +37,42 @@ std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 
 	Vertex v0{};
 	v0.Position = { x, y + height, };
-	v0.Color = glm::vec4(1.0);
+	v0.Color = Color;
 	v0.TexCoord = glm::vec2(texX, texY + texSizeY);
 	v0.TexIndex = textureIndex;
 	v0.IsBitmap = IsBitmap;
 	Vertex v1{};
 	v1.Position = { x + width, y + height, };
-	v1.Color = glm::vec4(1.0);
+	v1.Color = Color;
 	v1.TexCoord = glm::vec2(texX + texSizeX, texY + texSizeY);
 	v1.TexIndex = textureIndex;
 	v1.IsBitmap = IsBitmap;
 	Vertex v2{};
 	v2.Position = { x + width, y};
-	v2.Color = glm::vec4(1.0);
+	v2.Color = Color;
 	v2.TexCoord = glm::vec2(texX + texSizeX, texY);
 	v2.TexIndex = textureIndex;
 	v2.IsBitmap = IsBitmap;
 	Vertex v3{};
 	v3.Position = { x, y, };
-	v3.Color = glm::vec4(1.0);
+	v3.Color = Color;
 	v3.TexCoord = glm::vec2(texX, texY);
 	v3.TexIndex = textureIndex;
 	v3.IsBitmap = IsBitmap;
 
+	if (Texture == &rm::GetEmptyTexture()) {
+		v0.TexCoord = glm::vec2(-1.0f);
+		v1.TexCoord = glm::vec2(-1.0f);
+		v2.TexCoord = glm::vec2(-1.0f);
+		v3.TexCoord = glm::vec2(-1.0f);
+	}
+
 	return { v0, v1, v2, v3 };
+}
+
+Sprite Sprite::CreateRectangle(glm::vec2 size, glm::vec4 color)
+{
+	Sprite sprite(nullptr, 0, glm::vec2(size.x, size.y));
+	sprite.Color = color;
+	return sprite;
 }

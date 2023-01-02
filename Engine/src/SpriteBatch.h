@@ -4,7 +4,7 @@
 #include "VertexArray.h"
 #include <unordered_map>
 
-#define MaxSpriteCount 1000
+#define MaxSpriteCount 65536
 
 class SpriteBatch{
 public:
@@ -18,6 +18,6 @@ private:
 	Shader* m_Shader;
 	std::unique_ptr<IndexBuffer> m_IB;
 	VertexArray m_VA;
-	VertexBuffer m_VB = VertexBuffer(MaxSpriteCount*sizeof(Vertex));
+	VertexBuffer m_VB = VertexBuffer(MaxSpriteCount*sizeof(Vertex)*4);
 	std::unordered_map<void*, unsigned int> m_Textures;
 };

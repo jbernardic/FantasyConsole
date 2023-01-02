@@ -21,6 +21,8 @@ struct Sprite {
 	glm::vec2 CellSize = glm::vec2();
 	unsigned int CellIndex = 0;
 	bool IsBitmap = false;
+
+	static Sprite CreateRectangle(glm::vec2 size, glm::vec4 color);
 };
 
 //class SpriteSheet {

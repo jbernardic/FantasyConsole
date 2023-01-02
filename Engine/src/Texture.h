@@ -7,7 +7,7 @@
 class Texture {
 public:
 	Texture(const char* path);
-	Texture() {}
+	Texture();
 	~Texture();
 	const void Bind() const;
 	const void Bind(unsigned int unit) const;

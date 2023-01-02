@@ -5,7 +5,7 @@ class TextRenderer
 {
 public:
 	TextRenderer(const char* texture, glm::vec2 cellSize);
-	void Draw(glm::vec2 position, std::string);
+	void Draw(glm::vec2 position, std::string text);
 	glm::vec2 CellSize;
 	unsigned int FontSize = 8;
 	unsigned int LineSpacing = 8 + 2;

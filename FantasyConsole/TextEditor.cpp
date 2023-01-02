@@ -52,7 +52,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	//on character type
 	CharacterInputCallback characterCallback = [&](GLFWwindow* window, unsigned int codepoint) {
 		if (codepoint-32 < 224) { //if in character atlas
-			if (codepoint >= 65 && codepoint <= 90) codepoint += 32; //change to lowercase for Lua interpreter
+			if (textRenderer.Uppercase && codepoint >= 65 && codepoint <= 90) codepoint += 32; //change to lowercase for Lua interpreter
 			Text[CursorPosition.y].insert(CursorPosition.x, 1, codepoint);
 			CursorPosition.x++;
 			m_PreferredCol = CursorPosition.x;
@@ -67,7 +67,9 @@ void TextEditor::Draw()
 	m_Cursor.SetPosition(static_cast<float>(CursorPosition.x*m_TextRenderer.LetterSpacing+Position.x), 
 		static_cast<float>(CursorPosition.y*m_TextRenderer.LineSpacing+Position.y  - (m_TextRenderer.LineSpacing-m_TextRenderer.FontSize)+0.5f));
 	m_Cursor.Draw();
-	m_TextRenderer.Draw(Position, GetJointText());
+	std::string text = GetJointText();
+	CharacterCount = text.length();
+	m_TextRenderer.Draw(Position, text);
 }
 
 glm::vec2 TextEditor::FindCursor(int x, int y)

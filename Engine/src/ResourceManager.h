@@ -17,4 +17,7 @@ public:
 	static Shader& GetShader(std::string name);
 	static void LoadTexture(const char* path, std::string name);
 	static Texture& GetTexture(std::string name);
+	static Texture& GetEmptyTexture();
+private:
+	static std::unique_ptr<Texture> m_EmptyTexture;
 };

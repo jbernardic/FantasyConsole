@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="LuaScript.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SpriteEditor.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TextEditor.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LuaScript.h" />
+    <ClInclude Include="SpriteEditor.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="TextEditor.h" />
   </ItemGroup>
