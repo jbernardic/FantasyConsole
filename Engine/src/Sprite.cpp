@@ -75,10 +75,11 @@ std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 	return { v0, v1, v2, v3 };
 }
 
-Sprite Sprite::CreateRectangle(glm::vec2 size, glm::vec4 color)
+Sprite Sprite::CreateRectangle(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 {
 	Sprite sprite(&rm::GetEmptyTexture());
 	sprite.Size = size;
 	sprite.Color = color;
+	sprite.Position = pos;
 	return sprite;
 }

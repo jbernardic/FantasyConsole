@@ -24,5 +24,5 @@ struct Sprite {
 	unsigned int CellIndex = 0;
 	bool IsBitmap = false;
 
-	static Sprite CreateRectangle(glm::vec2 size, glm::vec4 color);
+	static Sprite CreateRectangle(glm::vec2 pos=glm::vec2(), glm::vec2 size=glm::vec2(), glm::vec4 color=glm::vec4());
 };

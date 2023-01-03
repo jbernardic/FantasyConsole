@@ -82,7 +82,10 @@ int main()
 	navigation.SetColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	SB = std::make_unique <SpriteBatch>();
-	SpriteEditor spriteEditor(glm::vec2(6, 18), glm::vec2(128), 16, 16);
+	SpriteEditor::Palette Palette{
+		colors, glm::vec2(102, 128), glm::vec2(164, 18), 3, 16
+	};
+	SpriteEditor spriteEditor(glm::vec2(6, 18), glm::vec2(128), 16, 16, Palette);
 	spriteEditor.Active = false;
 
 	LuaScript script;
