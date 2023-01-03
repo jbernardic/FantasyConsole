@@ -12,23 +12,15 @@ SpriteEditor::SpriteEditor(glm::vec2 position, glm::vec2 size, unsigned int swid
 	}
 
 	Input::AddEventListener("SpriteEditorCursorPosition", [&](GLFWwindow* window, double xpos, double ypos) {
-		if (!Active) return;
-		glm::vec2 m = Window::Size / glm::ivec2(s_width, s_height);
-		glm::dvec2 cpos = Input::GetCursorPosition()/glm::dvec2(m);
-		bool inX = cpos.x > Position.x && cpos.x < Position.x + Size.x;
-		bool inY = cpos.y > Position.y && cpos.y < Position.y + Size.y;
-		if (m_Drawing && inX && inY) {
-			unsigned int gridX = cpos.x / (Size.x / m_GridSize.x);
-			unsigned int gridY = cpos.y / (Size.y / m_GridSize.y);
-			unsigned int i = gridY * m_GridSize.x + gridX;
-			m_Grid[i].Color = glm::vec4(1.0);
-		}
+		if (!Active || !m_Drawing) return;
+		DrawPixel(Input::GetCursorPosition());
 	});
 
 	Input::AddEventListener("SpriteEditorMouseClick", [&](GLFWwindow* window, int button, int action, int mods) {
 		if (!Active) return;
 		if (action > 0) {
 			m_Drawing = true;
+			DrawPixel(Input::GetCursorPosition());
 		}
 		else m_Drawing = false;
 	});
@@ -41,6 +33,22 @@ void SpriteEditor::Draw(SpriteBatch& sb)
 		unsigned int y = (i / m_GridSize.x)* m_Grid[i].Size.y + Position.y;
 		m_Grid[i].Position = glm::vec2(static_cast<float>(x), static_cast<float>(y));
 		sb.Draw(m_Grid[i]);
+	}
+}
+
+void SpriteEditor::DrawPixel(glm::dvec2 position)
+{
+	glm::vec2 m = Window::Size / glm::ivec2(s_width, s_height);
+	glm::dvec2 cpos = position;
+	cpos = cpos / glm::dvec2(m);
+
+	bool inX = cpos.x > Position.x && cpos.x < Position.x + Size.x;
+	bool inY = cpos.y > Position.y && cpos.y < Position.y + Size.y;
+	if (inX && inY) {
+		unsigned int gridX = (cpos.x - Position.x) / (Size.x / m_GridSize.x);
+		unsigned int gridY = (cpos.y - Position.y) / (Size.y / m_GridSize.y);
+		unsigned int i = gridY * m_GridSize.x + gridX;
+		m_Grid[i].Color = glm::vec4(1.0);
 	}
 }
 

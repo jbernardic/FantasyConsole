@@ -11,6 +11,7 @@ class SpriteEditor
 public:
 	SpriteEditor(glm::vec2 position, glm::vec2 size, unsigned int gridWidth, unsigned int gridHeight);
 	void Draw(SpriteBatch& sb);
+	void DrawPixel(glm::dvec2 position);
 	~SpriteEditor();
 	glm::vec2 Position;
 	bool Active = true;
