@@ -1,3 +1,4 @@
+#pragma warning(disable:6385)
 #include <glm/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtc/type_ptr.hpp>
@@ -17,6 +18,7 @@
 #include "PolygonShape.h"
 #include "TextEditor.h"
 #include "LuaScript.h"
+#include "SpriteEditor.h"
 
 using namespace std;
 
@@ -39,7 +41,7 @@ static glm::vec4 colors[16] = {
 	glm::vec4(255, 204, 170, 255)
 };
 
-static std::unique_ptr<SpriteBatch> LuaSB;
+static std::unique_ptr<SpriteBatch> SB;
 
 int lua_CLS(lua_State* L) {
 	unsigned int c = lua_tonumber(L, 1);
@@ -57,7 +59,7 @@ int lua_RECT(lua_State* L) {
 	glm::vec4 color = colors[c] / (float)255;
 	Sprite s = Sprite::CreateRectangle(glm::vec2(width, height), color);
 	s.Position = glm::vec2(x, y);
-	LuaSB->Draw(s);
+	SB->Draw(s);
 	return 0;
 }
 
@@ -69,7 +71,7 @@ int lua_BTN(lua_State* L) {
 
 int main()
 {
-	Window::Create();
+	Window::Create(s_width*2, s_height*2);
 	rm::LoadTexture("Resources/ExportedFont.bmp", "font");
 
 	TextRenderer text("font", glm::vec2(8, 8));
@@ -79,7 +81,9 @@ int main()
 	RectangleShape navigation(0, 0, s_width, 12);
 	navigation.SetColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	LuaSB = std::make_unique <SpriteBatch>();
+	SB = std::make_unique <SpriteBatch>();
+	SpriteEditor spriteEditor(glm::vec2(0.0), glm::vec2(160), 16, 16);
+	spriteEditor.Active = false;
 
 	LuaScript script;
 	bool isGameRunning = false;
@@ -103,7 +107,19 @@ int main()
 				isGameRunning = false;
 			}
 		}
-		else if (key == GLFW_KEY_F1 && action > 0) 	tab = (tab + 1) % 2;
+		else if (key == GLFW_KEY_F1 && action > 0) {
+			tab = (tab + 1) % 2;
+			switch (tab) {
+			case 0: //code editor
+				textEditor.Active = true;
+				spriteEditor.Active = false;
+				break;
+			case 1: //sprite editor
+				spriteEditor.Active = true;
+				textEditor.Active = false;
+				break;
+			}
+		}
 	});
 	while (Window::IsOpen())
 	{
@@ -116,7 +132,9 @@ int main()
 				textEditor.Draw();
 				break;
 			case 1: //sprite editor
-				//spriteEditor.Draw();
+				SB->Begin();
+				spriteEditor.Draw(*SB);
+				SB->End();
 				break;
 			}
 
@@ -127,16 +145,16 @@ int main()
 
 			text.Draw(glm::vec2(2, 3), "KONZOLA");
 			text.Draw(glm::vec2(s_width-50, 3), "F5-RUN");
-			int digits = log10(textEditor.CharacterCount);
+			int digits = static_cast<int>(log10(textEditor.CharacterCount));
 			text.Draw(glm::vec2(s_width - 58 - digits*8, s_height-9), std::to_string(textEditor.CharacterCount) + "/65536");
 			text.Draw(glm::vec2(2, s_height - 9), "<F1> " + tabNames[tab]);
 		}
 		else {
-			Window::Clear(0.0, 0.0, 0.0, 1.0);
 			script.CallFunction("_update");
-			LuaSB->Begin();
+			Window::Clear(0.0, 0.0, 0.0, 1.0);
+			SB->Begin();
 			script.CallFunction("_draw");
-			LuaSB->End();
+			SB->End();
 		}
 		Window::Display();
 	}

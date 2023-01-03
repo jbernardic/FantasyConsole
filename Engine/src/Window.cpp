@@ -1,12 +1,9 @@
 #include "Window.h"
-#include "Variables.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include "Input.h"
 
 GLFWwindow* Window::window = nullptr;
+glm::ivec2 Window::Size(0.0);
 
-void Window::Create()
+void Window::Create(int width, int height)
 {
 	GLFWwindow* window;
 
@@ -19,7 +16,8 @@ void Window::Create()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow((int)s_width*2, (int)s_height*2, "OpenGL", NULL, NULL);
+	Size = glm::ivec2(width, height);
+	window = glfwCreateWindow(width, height, "OpenGL", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();

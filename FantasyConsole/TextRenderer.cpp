@@ -3,7 +3,7 @@
 #include "RectangleShape.h"
 
 TextRenderer::TextRenderer(const char* texture, glm::vec2 cellSize) : TextureName(texture), CellSize(cellSize) {
-	m_SB = std::make_unique<SpriteBatch>();
+	m_SB = std::make_unique<SpriteBatch>(); //change later
 }
 
 void TextRenderer::Draw(glm::vec2 position, std::string text) {

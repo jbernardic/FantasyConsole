@@ -2,14 +2,19 @@
 #include "ResourceManager.h"
 #include "Sprite.h"
 
+Sprite::Sprite(Texture* texture)
+{
+	SpriteTexture = texture;
+	Size = glm::vec2(SpriteTexture->GetWidth(), SpriteTexture->GetHeight());
+}
+
 Sprite::Sprite(const char* texture) {
-	Texture = &rm::GetTexture(texture);
-	Size = glm::vec2(Texture->GetWidth(), Texture->GetHeight());
+	SpriteTexture = &rm::GetTexture(texture);
+	Size = glm::vec2(SpriteTexture->GetWidth(), SpriteTexture->GetHeight());
 }
 
 Sprite::Sprite(const char* texture, unsigned int cellIndex, glm::vec2 cellSize) : Size(cellSize), CellSize(cellSize), CellIndex(cellIndex) {
-	if (texture != nullptr) Texture = &rm::GetTexture(texture);
-	else Texture = &rm::GetEmptyTexture();
+	SpriteTexture = &rm::GetTexture(texture);
 }
 
 std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
@@ -19,8 +24,8 @@ std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 	float height = Size.y;
 	float texX = 0, texY = 0, texSizeX = 1, texSizeY = 1;
 
-	unsigned int rows = static_cast<unsigned int>(Texture->GetHeight() / CellSize.y);
-	unsigned int columns = static_cast<unsigned int>(Texture->GetWidth() / CellSize.x);
+	unsigned int rows = static_cast<unsigned int>(SpriteTexture->GetHeight() / CellSize.y);
+	unsigned int columns = static_cast<unsigned int>(SpriteTexture->GetWidth() / CellSize.x);
 
 	//if using sprite sheet
 	if(rows != 0 && columns != 0)
@@ -28,8 +33,8 @@ std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 		int yIndex = static_cast<int>(CellIndex / columns);
 		int xIndex = static_cast<int>(CellIndex % columns);
 
-		texSizeX = CellSize.x / static_cast<float>(Texture->GetWidth());
-		texSizeY = CellSize.y / static_cast<float>(Texture->GetHeight());
+		texSizeX = CellSize.x / static_cast<float>(SpriteTexture->GetWidth());
+		texSizeY = CellSize.y / static_cast<float>(SpriteTexture->GetHeight());
 
 		texX = xIndex * texSizeX;
 		texY = yIndex * texSizeY;
@@ -60,7 +65,7 @@ std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 	v3.TexIndex = textureIndex;
 	v3.IsBitmap = IsBitmap;
 
-	if (Texture == &rm::GetEmptyTexture()) {
+	if (SpriteTexture == &rm::GetEmptyTexture()) {
 		v0.TexCoord = glm::vec2(-1.0f);
 		v1.TexCoord = glm::vec2(-1.0f);
 		v2.TexCoord = glm::vec2(-1.0f);
@@ -72,7 +77,8 @@ std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 
 Sprite Sprite::CreateRectangle(glm::vec2 size, glm::vec4 color)
 {
-	Sprite sprite(nullptr, 0, glm::vec2(size.x, size.y));
+	Sprite sprite(&rm::GetEmptyTexture());
+	sprite.Size = size;
 	sprite.Color = color;
 	return sprite;
 }

@@ -41,8 +41,8 @@ void SpriteBatch::Draw(Sprite& sprite)
 {
 	unsigned int texIndex;
 	bool textureBound = false;
-	if (m_Textures.find(sprite.Texture) != m_Textures.end()) {
-		texIndex = m_Textures[sprite.Texture];
+	if (m_Textures.find(sprite.SpriteTexture) != m_Textures.end()) {
+		texIndex = m_Textures[sprite.SpriteTexture];
 		textureBound = true;
 	}
 	else {
@@ -52,9 +52,9 @@ void SpriteBatch::Draw(Sprite& sprite)
 	auto dataArray = sprite.GetVertices(static_cast<float>(texIndex));
 	m_VB.Bind();
 	m_VB.SubData(dataArray.data(), dataArray.size() * sizeof(Vertex), static_cast<unsigned int>(m_BufferSize));
-	if(!textureBound) sprite.Texture->Bind(texIndex);
+	if(!textureBound) sprite.SpriteTexture->Bind(texIndex);
 	m_BufferSize += dataArray.size() * sizeof(Vertex);
-	m_Textures[sprite.Texture] = texIndex;
+	m_Textures[sprite.SpriteTexture] = texIndex;
 }
 
 void SpriteBatch::End() {

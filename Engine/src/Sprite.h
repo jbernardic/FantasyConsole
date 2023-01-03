@@ -11,10 +11,12 @@ struct Vertex {
 };
 
 struct Sprite {
+	Sprite() {};
+	Sprite(Texture* texture);
 	Sprite(const char* texture);
 	Sprite(const char* texture, unsigned int cellIndex, glm::vec2 cellSize);
 	std::array<Vertex, 4> GetVertices(float textureIndex);
-	Texture* Texture;
+	Texture* SpriteTexture = nullptr;
 	glm::vec2 Position = glm::vec2();
 	glm::vec2 Size = glm::vec2();
 	glm::vec4 Color = glm::vec4(1.0);
@@ -24,14 +26,3 @@ struct Sprite {
 
 	static Sprite CreateRectangle(glm::vec2 size, glm::vec4 color);
 };
-
-//class SpriteSheet {
-//public:
-//	SpriteSheet(const char* texture, glm::vec2 spriteSize = glm::vec2(16.0, 16.0));
-//	std::array<Vertex, 4> GetVertices(float textureIndex, unsigned int spriteIndex, glm::vec2 position, glm::vec2 size);
-//	Texture& GetTexture() { return *m_Texture; };
-//	static unsigned int Instance;
-//private:
-//	Texture* m_Texture;
-//	glm::vec2 m_SpriteSize;
-//};

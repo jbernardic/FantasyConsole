@@ -7,7 +7,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	m_Cursor.SetColor(1.0, 1.0, 1.0, 1.0);
 	//on key press
 	KeyInputCallback keyCallback = [&](GLFWwindow* window, int key, int scan, int action, int mode) {
-		if (action <= 0) return;
+		if (action <= 0 || !Active) return;
 		if (key == GLFW_KEY_BACKSPACE && !Text.empty() && !(CursorPosition.x == 0 && CursorPosition.y == 0)) { //if BACKSPACE pressed
 			if (CursorPosition.x == 0 && CursorPosition.y > 0) {
 				std::string s = Text[CursorPosition.y];
@@ -51,7 +51,7 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	};
 	//on character type
 	CharacterInputCallback characterCallback = [&](GLFWwindow* window, unsigned int codepoint) {
-		if (codepoint-32 < 224) { //if in character atlas
+		if (codepoint-32 < 224 && Active) { //if in character atlas
 			if (textRenderer.Uppercase && codepoint >= 65 && codepoint <= 90) codepoint += 32; //change to lowercase for Lua interpreter
 			Text[CursorPosition.y].insert(CursorPosition.x, 1, codepoint);
 			CursorPosition.x++;
@@ -60,6 +60,12 @@ TextEditor::TextEditor(TextRenderer& textRenderer) : m_TextRenderer(textRenderer
 	};
 	Input::AddEventListener("TextEditorKey", keyCallback);
 	Input::AddEventListener("TextEditorCharacter", characterCallback);
+}
+
+TextEditor::~TextEditor()
+{
+	Input::RemoveEventListener(KeyInput, "TextEditorKey");
+	Input::RemoveEventListener(CharacterInput, "TextEditorCharacter");
 }
 
 void TextEditor::Draw()

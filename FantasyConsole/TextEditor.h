@@ -5,6 +5,7 @@ class TextEditor
 {
 public:
 	TextEditor(TextRenderer& textRenderer);
+	~TextEditor();
 	void Draw();
 	std::vector<std::string> Text{ "" };
 	glm::vec2 Position = glm::vec2();
@@ -14,6 +15,7 @@ public:
 	glm::vec2 FindCursor(int x, int y);
 	std::string GetJointText();
 	unsigned int CharacterCount = 0;
+	bool Active = true;
 private:
 	TextRenderer& m_TextRenderer;
 	RectangleShape m_Cursor = RectangleShape(0.0f, 0.0f, static_cast<float>(m_TextRenderer.LetterSpacing), static_cast<float>(m_TextRenderer.LineSpacing));
