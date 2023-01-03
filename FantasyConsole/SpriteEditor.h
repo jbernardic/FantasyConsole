@@ -25,16 +25,18 @@ public:
 	};
 	SpriteEditor(glm::vec2 position, glm::vec2 size, unsigned int gridWidth, unsigned int gridHeight, Palette Palette);
 	void Draw(SpriteBatch& sb);
-	void DrawPixel(glm::dvec2 position);
+	void DrawPixel(glm::dvec2 position, glm::vec4 color);
+	glm::vec4 PickColor(glm::dvec2 position);
 	~SpriteEditor();
 	glm::vec2 Position;
 	glm::vec2 Size;
+	glm::vec4 PickedColors[2]{glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0)};
 	bool Active = true;
 
 private:
 	Palette m_Pallete;
 	glm::uvec2 m_GridSize;
 	Sprite* m_Grid;
-	bool m_Drawing = false;
+	int m_DrawingColor = -1;
 };
 

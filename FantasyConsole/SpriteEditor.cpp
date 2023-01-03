@@ -12,18 +12,26 @@ SpriteEditor::SpriteEditor(glm::vec2 position, glm::vec2 size, unsigned int swid
 	}
 
 	Input::AddEventListener("SpriteEditorCursorPosition", [&](GLFWwindow* window, double xpos, double ypos) {
-		if (!Active || !m_Drawing) return;
-		DrawPixel(Input::GetCursorPosition());
+		if (!Active || m_DrawingColor < 0) return;
+		DrawPixel(Input::GetCursorPosition(), PickedColors[m_DrawingColor % 2]);
 	});
 
 	Input::AddEventListener("SpriteEditorMouseClick", [&](GLFWwindow* window, int button, int action, int mods) {
-		if (!Active) return;
+		if (!Active || button > 1) return;
 		if (action > 0) {
-			m_Drawing = true;
-			DrawPixel(Input::GetCursorPosition());
+			m_DrawingColor = button;
+			DrawPixel(Input::GetCursorPosition(), PickedColors[m_DrawingColor]);
+			glm::vec4 color = PickColor(Input::GetCursorPosition());
+			if(color.a > 0) PickedColors[button] = PickColor(Input::GetCursorPosition());
 		}
-		else m_Drawing = false;
+		else m_DrawingColor = -1;
 	});
+}
+SpriteEditor::~SpriteEditor()
+{
+	delete m_Grid;
+	Input::RemoveEventListener(MouseButtonInput, "SpriteEditorMouseClick");
+	Input::RemoveEventListener(CursorPositionInput, "SpriteEditorCursorPosition");
 }
 
 void SpriteEditor::Draw(SpriteBatch& sb)
@@ -52,9 +60,14 @@ void SpriteEditor::Draw(SpriteBatch& sb)
 		Sprite colorSprite = Sprite::CreateRectangle(colorPos, colorSize, m_Pallete.Colors[i]/glm::vec4(255));
 		sb.Draw(colorSprite);
 	}
+	for (unsigned int i = 0; i < 2; i++) {
+		glm::vec2 size = glm::vec2(32, 32);
+		Sprite colorSprite = Sprite::CreateRectangle(m_Pallete.Position + glm::vec2(m_Pallete.Size.x + 15, 0) + glm::vec2((size.x+3)*i, 0), size, PickedColors[i]);
+		sb.Draw(colorSprite);
+	}
 }
 
-void SpriteEditor::DrawPixel(glm::dvec2 position)
+void SpriteEditor::DrawPixel(glm::dvec2 position, glm::vec4 color)
 {
 	glm::vec2 m = Window::Size / glm::ivec2(s_width, s_height);
 	glm::dvec2 cpos = position;
@@ -66,13 +79,24 @@ void SpriteEditor::DrawPixel(glm::dvec2 position)
 		unsigned int gridX = (cpos.x - Position.x) / (Size.x / m_GridSize.x);
 		unsigned int gridY = (cpos.y - Position.y) / (Size.y / m_GridSize.y);
 		unsigned int i = gridY * m_GridSize.x + gridX;
-		m_Grid[i].Color = glm::vec4(1.0);
+		m_Grid[i].Color = glm::vec4(color);
 	}
 }
 
-SpriteEditor::~SpriteEditor()
+glm::vec4 SpriteEditor::PickColor(glm::dvec2 position)
 {
-	delete m_Grid;
-	Input::RemoveEventListener(MouseButtonInput, "SpriteEditorMouseClick");
-	Input::RemoveEventListener(CursorPositionInput, "SpriteEditorCursorPosition");
+	glm::vec2 m = Window::Size / glm::ivec2(s_width, s_height);
+	glm::dvec2 cpos = position;
+	cpos = cpos / glm::dvec2(m);
+
+	bool inX = cpos.x > m_Pallete.Position.x && cpos.x < m_Pallete.Position.x + m_Pallete.Size.x;
+	bool inY = cpos.y > m_Pallete.Position.y && cpos.y < m_Pallete.Position.y + m_Pallete.Size.y;
+	
+	if (inX && inY) {
+		unsigned int gridX = (cpos.x - m_Pallete.Position.x) / (m_Pallete.Size.x / m_Pallete.ColumnCount);
+		unsigned int gridY = (cpos.y - m_Pallete.Position.y) / (m_Pallete.Size.y / ceil(m_Pallete.ColorCount / static_cast<float>(m_Pallete.ColumnCount)));
+		unsigned int i = gridY * m_Pallete.ColumnCount + gridX;
+		return m_Pallete.Colors[i] / glm::vec4(255);
+	}
+	return glm::vec4();
 }
