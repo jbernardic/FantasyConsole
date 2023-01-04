@@ -33,6 +33,9 @@ SpriteEditor::SpriteEditor(glm::vec2 position, glm::vec2 size, glm::uvec2 gridSi
 
 	Input::AddEventListener("SpriteEditorCharacterInput", [&](GLFWwindow* window, int codepoint) {
 		if (!Active) return;
+		if (codepoint >= 48 && codepoint <= 57) {
+			SpriteIndex = codepoint - '0';
+		}
 	});
 }
 SpriteEditor::~SpriteEditor()
@@ -53,7 +56,7 @@ void SpriteEditor::Draw(SpriteBatch& sb)
 	Sprite paletteBackground = Sprite::CreateRectangle(m_Pallete.Position, m_Pallete.Size, m_Pallete.Colors[0] / glm::vec4(255));
 	sb.Draw(paletteBackground);
 
-	Sprite canvas(m_Texture, 0, glm::vec2(16));
+	Sprite canvas(m_Texture, SpriteIndex, glm::vec2(16));
 	canvas.Size = Size;
 	canvas.Position = Position;
 	sb.Draw(canvas);
@@ -86,7 +89,7 @@ void SpriteEditor::DrawPixel(glm::dvec2 position, glm::vec4 color)
 		unsigned int gridX = (cpos.x - Position.x) / (Size.x / m_GridSize.x);
 		unsigned int gridY = (cpos.y - Position.y) / (Size.y / m_GridSize.y);
 		color *= glm::vec4(255);
-		m_TextureData[gridY][gridX] = { static_cast<unsigned char>(color.r), static_cast<unsigned char>(color.g), static_cast<unsigned char>(color.b), static_cast<unsigned char>(color.a) };
+		m_TextureData[SpriteIndex / 4*16 + gridY][(SpriteIndex % 4)*16 + gridX] = { static_cast<unsigned char>(color.r), static_cast<unsigned char>(color.g), static_cast<unsigned char>(color.b), static_cast<unsigned char>(color.a) };
 		m_Texture->SetData(m_TextureData);
 	}
 }
