@@ -42,6 +42,7 @@ static glm::vec4 colors[16] = {
 };
 
 static std::unique_ptr<SpriteBatch> SB;
+static std::unique_ptr<Texture> LuaTEX;
 
 int lua_CLS(lua_State* L) {
 	unsigned int c = lua_tonumber(L, 1);
@@ -62,6 +63,20 @@ int lua_RECT(lua_State* L) {
 	return 0;
 }
 
+int lua_SPR(lua_State* L) {
+	unsigned int sindex = lua_tonumber(L, 1);
+	float x = lua_tonumber(L, 2);
+	float y = lua_tonumber(L, 3);
+	float width = lua_tonumber(L, 4);
+	float height = lua_tonumber(L, 5);
+
+	Sprite s(LuaTEX.get(), sindex, glm::vec2(16));
+	s.Position = glm::vec2(x, y);
+	s.Size = glm::vec2(width, height);
+	SB->Draw(s);
+	return 0;
+}
+
 int lua_BTN(lua_State* L) {
 	int key = lua_tonumber(L, 1);
 	lua_pushboolean(L, Input::IsKeyPressed(key));
@@ -73,7 +88,7 @@ int main()
 	Window::Create(s_width*2, s_height*2);
 	rm::LoadTexture("Resources/ExportedFont.bmp", "font");
 
-	Texture testTex(nullptr, 64, 64);
+	LuaTEX = std::make_unique<Texture>(nullptr, 64, 64);
 
 	TextRenderer text("font", glm::vec2(8, 8));
 	text.Uppercase = true;
@@ -86,7 +101,7 @@ int main()
 	SpriteEditor::Palette palette{
 		colors, glm::vec2(102, 128), glm::vec2(164, 18), 3, 16
 	};
-	SpriteEditor spriteEditor(glm::vec2(6, 18), glm::vec2(128), glm::uvec2(16, 16), palette, &testTex);
+	SpriteEditor spriteEditor(glm::vec2(6, 18), glm::vec2(128), glm::uvec2(16, 16), palette, LuaTEX.get());
 	spriteEditor.Active = false;
 
 	LuaScript script;
@@ -101,6 +116,7 @@ int main()
 				lua_register(script.GetState(), "cls", lua_CLS);
 				lua_register(script.GetState(), "rect", lua_RECT);
 				lua_register(script.GetState(), "btn", lua_BTN);
+				lua_register(script.GetState(), "spr", lua_SPR);
 
 				script.Run(textEditor.GetJointText());
 				script.CallFunction("_init");
@@ -125,9 +141,6 @@ int main()
 			}
 		}
 	});
-	Sprite testSpr(&testTex);
-	testSpr.Size = glm::vec2(100, 100);
-	testSpr.Position = glm::vec2(100, 100);
 	while (Window::IsOpen())
 	{
 		if (!isGameRunning) {

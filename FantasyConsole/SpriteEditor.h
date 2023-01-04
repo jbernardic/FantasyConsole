@@ -30,7 +30,7 @@ public:
 	~SpriteEditor();
 	glm::vec2 Position;
 	glm::vec2 Size;
-	glm::vec4 PickedColors[2]{glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0)};
+	glm::vec4 PickedColors[2]{ glm::vec4(255, 241, 232, 255)/glm::vec4(255), glm::vec4(0.0, 0.0, 0.0, 1.0)};
 	unsigned int SpriteIndex = 0;
 	bool Active = true;
 
