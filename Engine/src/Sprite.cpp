@@ -2,20 +2,12 @@
 #include "ResourceManager.h"
 #include "Sprite.h"
 
-Sprite::Sprite(Texture* texture)
-{
-	SpriteTexture = texture;
+Sprite::Sprite(Texture* texture) : SpriteTexture(texture) {
 	Size = glm::vec2(SpriteTexture->GetWidth(), SpriteTexture->GetHeight());
 }
 
-Sprite::Sprite(const char* texture) {
-	SpriteTexture = &rm::GetTexture(texture);
-	Size = glm::vec2(SpriteTexture->GetWidth(), SpriteTexture->GetHeight());
-}
-
-Sprite::Sprite(const char* texture, unsigned int cellIndex, glm::vec2 cellSize) : Size(cellSize), CellSize(cellSize), CellIndex(cellIndex) {
-	SpriteTexture = &rm::GetTexture(texture);
-}
+Sprite::Sprite(Texture* texture, unsigned int cellIndex, glm::vec2 cellSize) : Size(cellSize), CellSize(cellSize), CellIndex(cellIndex), SpriteTexture(texture)
+{}
 
 std::array<Vertex, 4> Sprite::GetVertices(float textureIndex) {
 	float x = Position.x;

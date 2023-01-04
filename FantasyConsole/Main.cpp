@@ -57,8 +57,7 @@ int lua_RECT(lua_State* L) {
 	float height = lua_tonumber(L, 4);
 	unsigned int c = lua_tonumber(L, 5);
 	glm::vec4 color = colors[c] / (float)255;
-	Sprite s = Sprite::CreateRectangle(glm::vec2(width, height), color);
-	s.Position = glm::vec2(x, y);
+	Sprite s = Sprite::CreateRectangle(glm::vec2(x, y), glm::vec2(width, height), color);
 	SB->Draw(s);
 	return 0;
 }
@@ -74,6 +73,8 @@ int main()
 	Window::Create(s_width*2, s_height*2);
 	rm::LoadTexture("Resources/ExportedFont.bmp", "font");
 
+	Texture testTex(nullptr, 64, 64);
+
 	TextRenderer text("font", glm::vec2(8, 8));
 	text.Uppercase = true;
 	TextEditor textEditor(text);
@@ -82,10 +83,10 @@ int main()
 	navigation.SetColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	SB = std::make_unique <SpriteBatch>();
-	SpriteEditor::Palette Palette{
+	SpriteEditor::Palette palette{
 		colors, glm::vec2(102, 128), glm::vec2(164, 18), 3, 16
 	};
-	SpriteEditor spriteEditor(glm::vec2(6, 18), glm::vec2(128), 16, 16, Palette);
+	SpriteEditor spriteEditor(glm::vec2(6, 18), glm::vec2(128), glm::uvec2(16, 16), palette, &testTex);
 	spriteEditor.Active = false;
 
 	LuaScript script;
@@ -124,6 +125,9 @@ int main()
 			}
 		}
 	});
+	Sprite testSpr(&testTex);
+	testSpr.Size = glm::vec2(100, 100);
+	testSpr.Position = glm::vec2(100, 100);
 	while (Window::IsOpen())
 	{
 		if (!isGameRunning) {

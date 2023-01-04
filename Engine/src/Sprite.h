@@ -11,10 +11,8 @@ struct Vertex {
 };
 
 struct Sprite {
-	Sprite() {};
 	Sprite(Texture* texture);
-	Sprite(const char* texture);
-	Sprite(const char* texture, unsigned int cellIndex, glm::vec2 cellSize);
+	Sprite(Texture* texture, unsigned int cellIndex, glm::vec2 cellSize);
 	std::array<Vertex, 4> GetVertices(float textureIndex);
 	Texture* SpriteTexture = nullptr;
 	glm::vec2 Position = glm::vec2();

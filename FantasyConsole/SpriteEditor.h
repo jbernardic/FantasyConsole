@@ -23,7 +23,7 @@ public:
 			ColorCount = colorCount;
 		}
 	};
-	SpriteEditor(glm::vec2 position, glm::vec2 size, unsigned int gridWidth, unsigned int gridHeight, Palette Palette);
+	SpriteEditor(glm::vec2 position, glm::vec2 size, glm::uvec2 gridSize, Palette Palette, Texture* texture);
 	void Draw(SpriteBatch& sb);
 	void DrawPixel(glm::dvec2 position, glm::vec4 color);
 	glm::vec4 PickColor(glm::dvec2 position);
@@ -31,12 +31,14 @@ public:
 	glm::vec2 Position;
 	glm::vec2 Size;
 	glm::vec4 PickedColors[2]{glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0)};
+	unsigned int SpriteIndex = 0;
 	bool Active = true;
 
 private:
+	Texture* m_Texture;
+	std::array<GLubyte, 4> m_TextureData[64][64]{};
 	Palette m_Pallete;
 	glm::uvec2 m_GridSize;
-	Sprite* m_Grid;
 	int m_DrawingColor = -1;
 };
 

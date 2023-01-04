@@ -37,6 +37,23 @@ Texture::Texture(const char* path)
 	}
 	stbi_image_free(data);
 }
+Texture::Texture(void* data, int imageWidth, int imageHeight)
+{
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	glGenTextures(1, &m_Texture);
+	glBindTexture(GL_TEXTURE_2D, m_Texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+		GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_NEAREST);
+	m_Width = imageWidth;
+	m_Height = imageHeight;
+	SetData(data);
+}
 Texture::Texture() {
 	glGenTextures(1, &m_Texture);
 	glActiveTexture(GL_TEXTURE0);
@@ -46,6 +63,14 @@ Texture::~Texture()
 {
 	glDeleteTextures(1, &m_Texture);
 }
+
+const void Texture::SetData(void* data) const {
+	glBindTexture(GL_TEXTURE_2D, m_Texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width,
+		m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+		data);
+}
+
 const void Texture::Bind() const {
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
 }
