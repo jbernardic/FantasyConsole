@@ -72,7 +72,7 @@ int lua_SPR(lua_State* L) {
 
 	Sprite s(LuaTEX.get(), sindex, glm::vec2(16));
 	s.Position = glm::vec2(x, y);
-	s.Size = glm::vec2(width, height);
+	if(width != 0 && height != 0) s.Size = glm::vec2(width, height);
 	SB->Draw(s);
 	return 0;
 }
