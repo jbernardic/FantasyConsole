@@ -125,25 +125,25 @@ int main()
 			else {
 				script.Close();
 				isGameRunning = false;
+				textEditor.Active = false;
+				spriteEditor.Active = false;
 			}
 		}
 		else if (key == GLFW_KEY_F1 && action > 0) {
 			tab = (tab + 1) % 2;
-			switch (tab) {
-			case 0: //code editor
-				textEditor.Active = true;
-				spriteEditor.Active = false;
-				break;
-			case 1: //sprite editor
-				spriteEditor.Active = true;
-				textEditor.Active = false;
-				break;
-			}
 		}
 	});
 	while (Window::IsOpen())
 	{
 		if (!isGameRunning) {
+			if (tab == 0) {
+				textEditor.Active = true;
+				spriteEditor.Active = false;
+			}
+			else {
+				spriteEditor.Active = true;
+				textEditor.Active = false;
+			}
 			glm::vec4 color = colors[5] / 255.0f;
 			Window::Clear(color.r, color.g, color.b, color.a);
 			
@@ -170,6 +170,8 @@ int main()
 			text.Draw(glm::vec2(2, s_height - 9), "<F1> " + tabNames[tab]);
 		}
 		else {
+			textEditor.Active = false;
+			spriteEditor.Active = false;
 			script.CallFunction("_update");
 			Window::Clear(0.0, 0.0, 0.0, 1.0);
 			SB->Begin();
