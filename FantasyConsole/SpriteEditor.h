@@ -36,7 +36,7 @@ public:
 
 private:
 	Texture* m_Texture;
-	std::array<GLubyte, 4> m_TextureData[64][64]{};
+	std::array<GLubyte, 4> (*m_TextureData)[64];
 	Palette m_Pallete;
 	glm::uvec2 m_GridSize;
 	int m_DrawingColor = -1;

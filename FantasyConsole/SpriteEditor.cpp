@@ -8,6 +8,8 @@ SpriteEditor::SpriteEditor(glm::vec2 position, glm::vec2 size, glm::uvec2 gridSi
 	unsigned int swidth = m_GridSize.x;
 	unsigned int sheight = m_GridSize.y;
 
+	m_TextureData = new std::array<GLubyte, 4>[64][64];
+
 	for (unsigned int i = 0; i < 64; i++) {
 		for (unsigned int j = 0; j < 64; j++) {
 			m_TextureData[i][j] = { 0, 0, 0, 255 };
@@ -43,6 +45,7 @@ SpriteEditor::~SpriteEditor()
 	Input::RemoveEventListener(MouseButtonInput, "SpriteEditorMouseClick");
 	Input::RemoveEventListener(CursorPositionInput, "SpriteEditorCursorPosition");
 	Input::RemoveEventListener(CharacterInput, "SpriteEditorCharacterInput");
+	delete[] m_TextureData;
 }
 
 void SpriteEditor::Draw(SpriteBatch& sb)
